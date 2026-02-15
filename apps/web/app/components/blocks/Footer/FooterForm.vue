@@ -32,7 +32,12 @@
             :data-testid="switchConfig.id"
             class="checked:bg-editor-button checked:before:hover:bg-editor-button checked:border-gray-500 checked:hover:border:bg-gray-700 hover:border-gray-700 hover:before:bg-gray-700 checked:hover:bg-gray-300 checked:hover:border-gray-400"
           />
-          <SfTextarea
+ 
+        </div>
+      </div>
+      <div class="py-2">
+        <UiFormLabel>{{ getEditorTranslation('column-1-description-label') }}</UiFormLabel>
+        <SfTextarea
           v-model="footerBlock.column4.description"
           name="description"
           type="text"
@@ -40,7 +45,6 @@
           :placeholder="getEditorTranslation('column-1-description-placeholder')"
           data-testid="input-text-column-1"
         />
-        </div>
       </div>
     </UiAccordionItem>
 
@@ -422,6 +426,8 @@ watch(
     "column-1-legal-disclosure-label": "Show Legal Disclosure link",
     "column-1-privacy-policy-label": "Show Privacy Policy link",
     "column-1-declaration-of-accessibility-label": "Show Declaration of Accessibility link",
+    "column-1-description-label": "Description",
+    "column-1-description-placeholder": "Description text for the first column",
 
     "column-2-group-label": "Second column",
     "column-2-title-label": "Title",
@@ -462,6 +468,8 @@ watch(
     "column-1-legal-disclosure-label": "Show the link to Legal Disclosure",
     "column-1-privacy-policy-label": "Show the link to Privacy Policy",
     "column-1-declaration-of-accessibility-label": "Show the link to Declaration of Accessibility",
+    "column-1-description-label": "DE Description",
+    "column-1-description-placeholder": "DE Description text for the first column",
 
     "column-2-group-label": "Second column",
     "column-2-title-label": "Title",
