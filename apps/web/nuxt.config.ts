@@ -147,6 +147,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@plentymarkets/shop-core',
+    './modules/nk-override', // NK-Override
     '@plentymarkets/shop-module-mollie',
     '@plentymarkets/shop-module-gtag',
     '@nuxt/eslint',

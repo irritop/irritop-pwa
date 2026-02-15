@@ -32,6 +32,14 @@
             :data-testid="switchConfig.id"
             class="checked:bg-editor-button checked:before:hover:bg-editor-button checked:border-gray-500 checked:hover:border:bg-gray-700 hover:border-gray-700 hover:before:bg-gray-700 checked:hover:bg-gray-300 checked:hover:border-gray-400"
           />
+          <SfTextarea
+          v-model="footerBlock.column4.description"
+          name="description"
+          type="text"
+          class="w-full min-h-[232px]"
+          :placeholder="getEditorTranslation('column-1-description-placeholder')"
+          data-testid="input-text-column-1"
+        />
         </div>
       </div>
     </UiAccordionItem>
