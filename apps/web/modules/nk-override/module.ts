@@ -84,6 +84,14 @@ export default defineNuxtModule({
       }
     });
 
+
+    nuxt.hook('components:extend', (components) => {
+      const uiButton = components.find((c) => c.pascalName === 'UiButton');
+      if (uiButton) {
+        uiButton.filePath = resolve('./runtime/components/UiButton.vue');
+      }
+    });
+
     /**
      * Ready hook to log a message when the module is ready
      */
