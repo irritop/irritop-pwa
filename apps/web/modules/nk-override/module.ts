@@ -24,23 +24,17 @@ export default defineNuxtModule({
 
       if (config?.theme?.extend && typeof config.theme.extend.colors === 'object') {
         const colors = config.theme.extend.colors as TailwindColors;
-        if (!colors.gray) {
-          colors.gray = {};
-        }
+        if (!colors.gray) {colors.gray = {};}
         colors.gray['100'] = '#F7F7F7';
         colors.gray['200'] = '#dcdcdc';
         colors.gray['300'] = '#ACACAC';
         colors.gray['600'] = '#6A6A6A';
         colors.gray['800'] = '#5A5A5A';
 /*
-        if (!colors.neutral) {
-          colors.neutral = {};
-        }
+        if (!colors.neutral) {colors.neutral = {};}
         colors.neutral['300'] = '#dc2626';
 
-        if (!colors.secondary) {
-          colors.secondary = {};
-        }
+        if (!colors.secondary) {colors.secondary = {};}
         colors.secondary['100'] = '#dc2626';
 */
 
@@ -86,10 +80,10 @@ export default defineNuxtModule({
 
 
     nuxt.hook('components:extend', (components) => {
-      const uiButton = components.find((c) => c.pascalName === 'UiButton');
-      if (uiButton) {
-        uiButton.filePath = resolve('./runtime/components/UiButton.vue');
-      }
+      const blocksFooter = components.find((c) => c.pascalName === 'BlocksFooter'); 
+      const blocksFooterForm = components.find((c) => c.pascalName === 'BlocksFooterForm'); 
+      if (blocksFooter) { blocksFooter.filePath = resolve('./runtime/components/BlocksFooter.vue'); }
+      if (blocksFooterForm) { blocksFooterForm.filePath = resolve('./runtime/components/BlocksFooterForm.vue'); }
     });
 
     /**

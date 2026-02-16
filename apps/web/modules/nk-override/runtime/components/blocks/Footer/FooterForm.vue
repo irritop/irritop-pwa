@@ -1,6 +1,36 @@
 <template>
   <div class="footer-settings-view sticky" data-testid="footer-settings-drawer">
     <UiAccordionItem
+      v-model="legalOptions"
+      data-testid="legal-options"
+      summary-active-class="bg-neutral-100 border-t-0"
+      summary-class="w-full hover:bg-neutral-100 px-4 py-5 flex justify-between items-center select-none border-b"
+    >
+      <template #summary>
+        <h2>{{ getEditorTranslation('legal-options-group-label') }}</h2>
+      </template>
+      <div class="py-2">
+        <div class="flex justify-between mb-2">
+          <UiFormLabel>{{ getEditorTranslation('legal-options-title-label') }}</UiFormLabel>
+        </div>
+      </div>
+
+      <div v-for="switchConfig in columnOneSwitches" :key="switchConfig.id" class="py-2">
+        <div class="flex justify-between mb-2">
+          <UiFormLabel class="mb-1">{{ getEditorTranslation(switchConfig.translationKey) }}</UiFormLabel>
+          <SfSwitch
+            v-model="switchConfig.model.value"
+            :data-testid="switchConfig.id"
+            class="checked:bg-editor-button checked:before:hover:bg-editor-button checked:border-gray-500 checked:hover:border:bg-gray-700 hover:border-gray-700 hover:before:bg-gray-700 checked:hover:bg-gray-300 checked:hover:border-gray-400"
+          />
+        </div>
+      </div>
+    </UiAccordionItem>
+
+
+
+
+    <UiAccordionItem
       v-model="firstColumnOpen"
       data-testid="first-column-section"
       summary-active-class="bg-neutral-100 border-t-0"
@@ -23,17 +53,16 @@
           </SfInput>
         </label>
       </div>
-
-      <div v-for="switchConfig in columnOneSwitches" :key="switchConfig.id" class="py-2">
-        <div class="flex justify-between mb-2">
-          <UiFormLabel class="mb-1">{{ getEditorTranslation(switchConfig.translationKey) }}</UiFormLabel>
-          <SfSwitch
-            v-model="switchConfig.model.value"
-            :data-testid="switchConfig.id"
-            class="checked:bg-editor-button checked:before:hover:bg-editor-button checked:border-gray-500 checked:hover:border:bg-gray-700 hover:border-gray-700 hover:before:bg-gray-700 checked:hover:bg-gray-300 checked:hover:border-gray-400"
-          />
- 
-        </div>
+      <div class="py-2">
+        <UiFormLabel>{{ getEditorTranslation('column-1-description-label') }}</UiFormLabel>
+        <SfTextarea
+          v-model="footerBlock.column1.description"
+          name="description"
+          type="text"
+          class="w-full min-h-[232px]"
+          :placeholder="getEditorTranslation('column-1-description-placeholder')"
+          data-testid="input-text-column-1"
+        />
       </div>
     </UiAccordionItem>
 
@@ -352,6 +381,7 @@ const { blockUuid } = useSiteConfiguration();
 const { findOrDeleteBlockByUuid } = useBlockManager();
 const props = defineProps<{ uuid?: string }>();
 
+const legalOptions = ref(false);
 const firstColumnOpen = ref(false);
 const secondColumnOpen = ref(false);
 const thirdColumnOpen = ref(false);
@@ -407,6 +437,9 @@ watch(
 <i18n lang="json">
 {
   "en": {
+    "legal-options-group-label": "Legal",
+    "legal-options-title-label": "Title",
+
     "column-1-group-label": "First column",
     "column-1-title-label": "Title",
     "column-1-terms-and-conditions-label": "Show Terms and Conditions link",
@@ -415,6 +448,8 @@ watch(
     "column-1-legal-disclosure-label": "Show Legal Disclosure link",
     "column-1-privacy-policy-label": "Show Privacy Policy link",
     "column-1-declaration-of-accessibility-label": "Show Declaration of Accessibility link",
+    "column-1-description-label": "Description",
+    "column-1-description-placeholder": "Description text for the first column",
 
     "column-2-group-label": "Second column",
     "column-2-title-label": "Title",
@@ -447,6 +482,9 @@ watch(
     "colors-footnote-background-label": "Footnote Background colour"
   },
   "de": {
+    "legal-options-group-label": "Legal",
+    "legal-options-title-label": "Title",
+
     "column-1-group-label": "First column",
     "column-1-title-label": "Title",
     "column-1-terms-and-conditions-label": "Show the link to Terms and Conditions",
@@ -455,6 +493,8 @@ watch(
     "column-1-legal-disclosure-label": "Show the link to Legal Disclosure",
     "column-1-privacy-policy-label": "Show the link to Privacy Policy",
     "column-1-declaration-of-accessibility-label": "Show the link to Declaration of Accessibility",
+    "column-1-description-label": "DE Description",
+    "column-1-description-placeholder": "DE Description text for the first column",
 
     "column-2-group-label": "Second column",
     "column-2-title-label": "Title",
