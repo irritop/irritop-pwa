@@ -79,7 +79,6 @@ export default defineNuxtConfig({
         'vue-tel-input',
         'vuedraggable/src/vuedraggable',
         'yup',
-        './modules/custom-header',
       ],
     },
     build: {
