@@ -22,6 +22,7 @@ export type NewsletterSubscribeContent = {
 
   settings: {
     emailFolderId: number;
+    newSettingName: string;  // NK Add your new setting here
   };
   layout?: {
     fullWidth?: boolean;

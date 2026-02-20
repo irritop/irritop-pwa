@@ -11,6 +11,12 @@
       v-html="props.content.text?.title ?? t('newsletter.heading')"
     />
     <h2
+      v-if="props.index === 0"
+      class="typography-display-3 md:typography-display-2 lg:typography-display-1 font-bold my-2 lg:leading-[4rem]"
+      data-testid="newsletter-title"
+      v-html="props.content.settings?.newSettingName ?? 'No text set for new setting'"
+    />
+    <h2
       v-if="props.index !== 0"
       class="typography-headline-4 sm:typography-headline-3 font-bold mb-2"
       data-testid="newsletter-title"

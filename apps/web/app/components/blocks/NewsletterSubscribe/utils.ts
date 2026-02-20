@@ -23,7 +23,10 @@ export function initializeNewsletterContent(content: Partial<NewsletterSubscribe
   }
 
   if (!content.settings) {
-    content.settings = { emailFolderId: 1 };
+    content.settings = { 
+      emailFolderId: 1,
+      newSettingName: 'defaultValue'  // NK Add your default value here
+     };
   } else {
     if (content.settings.emailFolderId === undefined) content.settings.emailFolderId = 1;
   }

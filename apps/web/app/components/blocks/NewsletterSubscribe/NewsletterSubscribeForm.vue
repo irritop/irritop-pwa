@@ -134,6 +134,17 @@
           </template>
         </EditorColorPicker>
       </div>
+
+      <div class="mb-6">
+        <UiFormLabel class="mb-1">{{ getEditorTranslation('new-setting-label') }}</UiFormLabel>
+        <SfInput
+          v-model="newsletterBlock.settings.newSettingName"
+          type="text"
+          placeholder="Enter value"
+          data-testid="newsletter-form-new-setting"
+        />
+      </div>
+
     </UiAccordionItem>
     <UiAccordionItem
       v-model="layoutOpen"
@@ -195,7 +206,8 @@ const { isFullWidth } = useFullWidthToggleForContent(newsletterBlock);
     "newsletter-form-email-folder-id-tooltip": "Find the ID of the email folder in your PlentyONE system under Setup » CRM » Newsletter » Recipient lists.",
     "settings-group-label": "Settings",
     "background-color-label": "Background Color",
-    "layout-label": "Layout"
+    "layout-label": "Layout",
+    "new-setting-label": "New Setting Label"
   },
   "de": {
     "text-group-label": "Text",
@@ -213,7 +225,8 @@ const { isFullWidth } = useFullWidthToggleForContent(newsletterBlock);
     "newsletter-form-email-folder-id-tooltip": "Find the ID of the email folder in your PlentyONE system under Setup » CRM » Newsletter » Recipient lists.",
     "settings-group-label": "Settings",
     "background-color-label": "Background Color",
-    "layout-label": "Layout"
+    "layout-label": "Layout",
+    "new-setting-label": "Neue Einstellungsbeschriftung"
   }
 }
 </i18n>
