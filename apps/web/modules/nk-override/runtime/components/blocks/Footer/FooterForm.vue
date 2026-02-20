@@ -27,9 +27,6 @@
       </div>
     </UiAccordionItem>
 
-
-
-
     <UiAccordionItem
       v-model="firstColumnOpen"
       data-testid="first-column-section"
