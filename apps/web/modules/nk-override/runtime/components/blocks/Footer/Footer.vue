@@ -54,47 +54,41 @@
       </div>
     </div>
   <!-- Footnote -->
-    <div>
-      <div class="inline-flex w-full flex-auto">
-        <!-- Footnote 1st column-->
-        <div class="w-full p-3">
-          <ul>
-            <SfListItem
-              v-for="switchConfig in getColumnSwitches(resolvedContent.column1)"
-              :key="switchConfig.id"
-              class="py-2 !bg-transparent typography-text-sm"
-            >
-              <SfLink
-                :tag="NuxtLink"
-                :style="{ color: resolvedContent.colors?.text || undefined }"
-                class="no-underline text-neutral-600 hover:underline active:underline"
-                variant="secondary"
-                :to="localePath(switchConfig.link)"
-              >
-                {{ switchConfig.translationKey }}
-              </SfLink>
-            </SfListItem>
-          </ul>
-        </div>
-        <!-- Footnote 2nd column-->
-        <div class="w-full p-3">
-          <div
-          v-if="resolvedContent.footnote && resolvedContent.footnote.trim() !== ''"
-          class="text-sm py-10 md:py-6 px-10 text-right"
-          :class="{
-            'text-left': resolvedContent.footnoteAlign === 'left',
-            'text-center': resolvedContent.footnoteAlign === 'center',
-            'text-right': resolvedContent.footnoteAlign === 'right',
-          }"
-          :style="{
-            color: resolvedContent.colors?.footnoteText,
-            backgroundColor: resolvedContent.colors?.footnoteBackground,
-          }"
-          v-html="resolvedContent.footnote"
-          />
-        </div>
-      </div>
+    <div
+      class="mb-[62px] md:mb-2 inline-flex w-full flex-auto typography-text-sm flex-wrap md:flex-nowrap"
+      :style="{
+        color: resolvedContent.colors?.footnoteText,
+        backgroundColor: resolvedContent.colors?.footnoteBackground,
+      }"
+    >
+      <!-- Footnote 1st column-->
+      <div class="p-5 flex flex-row w-full justify-center items-center flex-wrap">
+        <SfLink
+          v-for="switchConfig in getColumnSwitches(resolvedContent.column1)"
+          :key="switchConfig.id"
 
+          :tag="NuxtLink"
+          :style="{ color: resolvedContent.colors?.text || undefined }"
+          class="p-4 py-2 inline-block whitespace-nowrap no-underline hover:underline active:underline"
+          variant="secondary"
+          :to="localePath(switchConfig.link)"
+        >
+          {{ switchConfig.translationKey }}
+        </SfLink>
+      </div>
+      <!-- Footnote 2nd column-->
+      <div class="w-full p-3">
+        <div
+        v-if="resolvedContent.footnote && resolvedContent.footnote.trim() !== ''"
+        class="text-sm py-10 md:py-6 px-10 text-right"
+        :class="{
+          'text-left': resolvedContent.footnoteAlign === 'left',
+          'text-center': resolvedContent.footnoteAlign === 'center',
+          'text-right': resolvedContent.footnoteAlign === 'right',
+        }"
+        v-html="resolvedContent.footnote"
+        />
+      </div>
     </div>
   </footer>
 </template>
