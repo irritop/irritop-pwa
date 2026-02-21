@@ -1,7 +1,6 @@
-import { useLogger, defineNuxtModule, createResolver, addPlugin, extendPages } from '@nuxt/kit';
+import { useLogger, defineNuxtModule, createResolver } from '@nuxt/kit';
 import type { TailwindColors } from './types';
 import type { Config as TailwindConfig } from 'tailwindcss/types/config';
-import type { NuxtPage } from '@nuxt/schema'
 
 export default defineNuxtModule({
   meta: {
@@ -24,7 +23,9 @@ export default defineNuxtModule({
 
       if (config?.theme?.extend && typeof config.theme.extend.colors === 'object') {
         const colors = config.theme.extend.colors as TailwindColors;
-        if (!colors.gray) {colors.gray = {};}
+        if (!colors.gray) {
+          colors.gray = {};
+        }
         colors.gray['100'] = '#F7F7F7';
         colors.gray['200'] = '#dcdcdc';
         colors.gray['300'] = '#ACACAC';
@@ -82,8 +83,10 @@ export default defineNuxtModule({
     nuxt.hook('components:extend', (components) => {
       const blocksFooter = components.find((c) => c.pascalName === 'BlocksFooter'); 
       const blocksFooterForm = components.find((c) => c.pascalName === 'BlocksFooterForm'); 
-      if (blocksFooter) { blocksFooter.filePath = resolve('./runtime/components/BlocksFooter.vue'); }
-      if (blocksFooterForm) { blocksFooterForm.filePath = resolve('./runtime/components/BlocksFooterForm.vue'); }
+      if (blocksFooter) { 
+        blocksFooter.filePath = resolve('./runtime/components/BlocksFooter.vue'); }
+      if (blocksFooterForm) { 
+        blocksFooterForm.filePath = resolve('./runtime/components/BlocksFooterForm.vue'); }
     });
 
     /**

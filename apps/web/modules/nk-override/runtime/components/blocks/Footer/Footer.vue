@@ -88,6 +88,11 @@
         }"
         v-html="resolvedContent.footnote"
         />
+        <div
+            v-if="resolvedContent.footnoteDescription && resolvedContent.footnoteDescription.trim() !== ''"
+            class="custom-html ml-4 text-sm hover:cursor-pointer"
+            v-html="resolvedContent.footnoteDescription"
+        />
       </div>
     </div>
   </footer>
@@ -95,13 +100,15 @@
 
 <script setup lang="ts">
 import { SfLink, SfListItem } from '@storefront-ui/vue';
-import type { FooterProps, FooterSettings, FooterSettingsColumn } from './types';
+import type { FooterProps, FooterSettingsColumn } from './types';
+import type { ExtendedFooterSettings } from './../../../composables/useExtendedFooterSettings';
+import { mapExtendedFooterData } from './../../../composables/useExtendedFooterSettings';
 
 const props = defineProps<FooterProps>();
 const localePath = useLocalePath();
 const NuxtLink = resolveComponent('NuxtLink');
 const { getFooterSettings, footerCache } = useFooter();
-const resolvedContent = ref<FooterSettings | null>(null);
+const resolvedContent = ref<ExtendedFooterSettings | null>(null);
 let stopWatch: (() => void) | null = null;
 
 onMounted(() => {
@@ -109,7 +116,7 @@ onMounted(() => {
     [() => props.content, footerCache],
     () => {
       const content = props.content ?? getFooterSettings();
-      resolvedContent.value = mapFooterData(content);
+      resolvedContent.value = mapExtendedFooterData(content);
     },
     { immediate: true, deep: true },
   );
