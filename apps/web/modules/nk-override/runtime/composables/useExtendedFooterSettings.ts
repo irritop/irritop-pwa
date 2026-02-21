@@ -6,17 +6,15 @@ export interface ExtendedFooterSettings extends FooterSettings {
 }
 
 // Create a wrapper function that extends the defaults
-export const createExtendedFooterSettings = (): ExtendedFooterSettings => {
-  const baseDefaults = createDefaultFooterSettings(); // Your original function
-  
+export function createExtendedFooterSettings(base?: Partial<FooterSettings>): ExtendedFooterSettings {
   return {
-    ...baseDefaults,
+    ...(base as FooterSettings ?? ({} as FooterSettings)),
     footnoteDescription: '',
     column1: {
-      ...baseDefaults.column1,
-      description: ''
-    },
-  } as ExtendedFooterSettings;
+      ...base?.column1,
+      description: '',
+  } as ExtendedFooterSettings['column1'],
+  };
 };
 
 // Helper to extend existing footer data

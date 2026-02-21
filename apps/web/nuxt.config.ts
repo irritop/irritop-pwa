@@ -11,7 +11,7 @@ import { FailOnLargeChunksPlugin } from './app/configuration/vite.config';
 export default defineNuxtConfig({
   srcDir: 'app/',
   telemetry: false,
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   css: ['~/assets/richtext.css'],
   typescript: {
     typeCheck: true,
@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   },
   appConfig: {
     titleSuffix: process.env.NAME || 'PlentyONE Shop',
-    fallbackCurrency: 'GBP',
+    fallbackCurrency: 'EUR',
   },
   imports: {
     dirs: ['~/composables', '~/composables/**', '~/utils/**'],
