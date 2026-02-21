@@ -224,6 +224,17 @@
         </label>
       </div>
       <div class="py-2">
+        <UiFormLabel>{{ getEditorTranslation('footnotes-description-label') }}</UiFormLabel>
+        <SfTextarea
+          v-model="footerBlock.footnoteDescription"
+          name="description"
+          type="text"
+          class="w-full min-h-[232px]"
+          :placeholder="getEditorTranslation('footnotes-description-placeholder')"
+          data-testid="input-text-footnotes-description"
+        />
+      </div>
+      <div class="py-2">
         <UiFormLabel>{{ getEditorTranslation('footnotes-align-label') }}</UiFormLabel>
 
         <div class="mt-2 w-full inline-flex rounded-lg border border-gray-300 bg-white text-gray-700 overflow-hidden">
@@ -367,7 +378,13 @@
 
 <script setup lang="ts">
 import { SfInput, SfTextarea, SfSwitch, SfIconCheck } from '@storefront-ui/vue';
-import type { FooterSettings } from './types';
+// import type { FooterSettings } from './types';
+// NK add my own extentions
+import type { ExtendedFooterSettings } from './../../../composables/useExtendedFooterSettings';
+import { mapExtendedFooterData } from './../../../composables/useExtendedFooterSettings';
+
+
+
 const route = useRoute();
 const { data } = useCategoryTemplate(
   route?.meta?.identifier as string,
@@ -391,7 +408,9 @@ const getSourceBlock = () => {
 };
 
 const sourceContent = getSourceBlock()?.content || {};
-const footerBlock = ref(mapFooterData(sourceContent as FooterSettings));
+/**  const footerBlock = ref(mapFooterData(sourceContent as FooterSettings)); */
+// replace mapFooterData with mapExtendedFooterData to include new properties in the form
+const footerBlock = ref(mapExtendedFooterData(sourceContent as ExtendedFooterSettings));
 
 const columnOneSwitches = FOOTER_SWITCH_DEFINITIONS.filter((config) => config.columnGroup === 'legal').map(
   (switchConfig) => ({
@@ -471,6 +490,8 @@ watch(
     "footnotes-align-option-left-label": "Left",
     "footnotes-align-option-center-label": "Center",
     "footnotes-align-option-right-label": "Right",
+    "footnotes-description-label": "Footnotes description",
+    "footnotes-description-placeholder": "Footnotes description text",
 
     "colors-group-label": "Colour",
     "colors-text-label": "Text colour",
@@ -516,6 +537,8 @@ watch(
     "footnotes-align-option-left-label": "Left",
     "footnotes-align-option-center-label": "Center",
     "footnotes-align-option-right-label": "Right",
+    "footnotes-description-label": "Footnotes description",
+    "footnotes-description-placeholder": "Footnotes description text",
 
     "colors-group-label": "Colour",
     "colors-text-label": "Text colour",
