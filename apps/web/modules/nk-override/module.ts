@@ -84,9 +84,9 @@ export default defineNuxtModule({
       const blocksFooter = components.find((c) => c.pascalName === 'BlocksFooter'); 
       const blocksFooterForm = components.find((c) => c.pascalName === 'BlocksFooterForm'); 
       if (blocksFooter) { 
-        blocksFooter.filePath = resolve('./runtime/components/blocks/Footer/BlocksFooter.vue'); }
+        blocksFooter.filePath = resolve('./runtime/components/blocks/Footer/Footer.vue'); }
       if (blocksFooterForm) { 
-        blocksFooterForm.filePath = resolve('./runtime/components/blocks/Footer/BlocksFooterForm.vue'); }
+        blocksFooterForm.filePath = resolve('./runtime/components/blocks/Footer/FooterForm.vue'); }
     });
 
     /**
