@@ -1,33 +1,6 @@
 <template>
   <div class="footer-settings-view sticky" data-testid="footer-settings-drawer">
     <UiAccordionItem
-      v-model="legalOptions"
-      data-testid="legal-options"
-      summary-active-class="bg-neutral-100 border-t-0"
-      summary-class="w-full hover:bg-neutral-100 px-4 py-5 flex justify-between items-center select-none border-b"
-    >
-      <template #summary>
-        <h2>{{ getEditorTranslation('legal-options-group-label') }}</h2>
-      </template>
-      <div class="py-2">
-        <div class="flex justify-between mb-2">
-          <UiFormLabel>{{ getEditorTranslation('legal-options-title-label') }}</UiFormLabel>
-        </div>
-      </div>
-
-      <div v-for="switchConfig in columnOneSwitches" :key="switchConfig.id" class="py-2">
-        <div class="flex justify-between mb-2">
-          <UiFormLabel class="mb-1">{{ getEditorTranslation(switchConfig.translationKey) }}</UiFormLabel>
-          <SfSwitch
-            v-model="switchConfig.model.value"
-            :data-testid="switchConfig.id"
-            class="checked:bg-editor-button checked:before:hover:bg-editor-button checked:border-gray-500 checked:hover:border:bg-gray-700 hover:border-gray-700 hover:before:bg-gray-700 checked:hover:bg-gray-300 checked:hover:border-gray-400"
-          />
-        </div>
-      </div>
-    </UiAccordionItem>
-
-    <UiAccordionItem
       v-model="firstColumnOpen"
       data-testid="first-column-section"
       summary-active-class="bg-neutral-100 border-t-0"
@@ -61,6 +34,25 @@
           data-testid="input-text-column-1"
         />
       </div>
+
+      <h2>{{ getEditorTranslation('legal-options-group-label') }}</h2>
+      <div class="py-2">
+        <div class="flex justify-between mb-2">
+          <UiFormLabel>{{ getEditorTranslation('legal-options-title-label') }}</UiFormLabel>
+        </div>
+      </div>
+
+      <div v-for="switchConfig in columnOneSwitches" :key="switchConfig.id" class="py-2">
+        <div class="flex justify-between mb-2">
+          <UiFormLabel class="mb-1">{{ getEditorTranslation(switchConfig.translationKey) }}</UiFormLabel>
+          <SfSwitch
+            v-model="switchConfig.model.value"
+            :data-testid="switchConfig.id"
+            class="checked:bg-editor-button checked:before:hover:bg-editor-button checked:border-gray-500 checked:hover:border:bg-gray-700 hover:border-gray-700 hover:before:bg-gray-700 checked:hover:bg-gray-300 checked:hover:border-gray-400"
+          />
+        </div>
+      </div>
+
     </UiAccordionItem>
 
     <UiAccordionItem
@@ -395,7 +387,6 @@ const { blockUuid } = useSiteConfiguration();
 const { findOrDeleteBlockByUuid } = useBlockManager();
 const props = defineProps<{ uuid?: string }>();
 
-const legalOptions = ref(false);
 const firstColumnOpen = ref(false);
 const secondColumnOpen = ref(false);
 const thirdColumnOpen = ref(false);
