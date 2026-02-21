@@ -107,7 +107,7 @@ import { mapExtendedFooterData } from './../../../composables/useExtendedFooterS
 const props = defineProps<FooterProps>();
 const localePath = useLocalePath();
 const NuxtLink = resolveComponent('NuxtLink');
-const { getFooterSettings, footerCache } = useFooter();
+const { getFooterSettings, footerCache, FOOTER_SWITCH_DEFINITIONS } = useFooter();
 const resolvedContent = ref<ExtendedFooterSettings | null>(null);
 let stopWatch: (() => void) | null = null;
 
