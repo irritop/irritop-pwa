@@ -8,13 +8,14 @@
 
 <script setup lang="ts">
 import type { Product } from '@plentymarkets/shop-api';
-import type { Locale } from '#i18n';
 import type { WatchStopHandle } from 'vue';
 import { productGetters, categoryTreeGetters } from '@plentymarkets/shop-api';
+import type { Locale } from '#i18n';
 
 defineI18nRoute({
   locales: process.env.LANGUAGELIST?.split(',') as Locale[],
 });
+
 const route = useRoute();
 const { setCurrentProduct } = useProducts();
 const { setBlocksListContext } = useBlocksList();

@@ -1,13 +1,20 @@
-import type { BannerProps } from '~/components/blocks/BannerCarousel/types';
+import type { Block } from '@plentymarkets/shop-api';
+
+export type SlideBlock = Block & {
+  configuration?: {
+    visible?: boolean;
+  };
+};
 
 export type CarouselStructureProps = {
   name: string;
   type: string;
-  content: BannerProps[];
+  content: SlideBlock[];
   configuration: {
     controls: {
       color: string;
       displayArrows: boolean;
+      displayIndicators?: boolean;
     };
     layout?: {
       fullWidth?: boolean;

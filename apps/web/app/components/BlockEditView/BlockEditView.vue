@@ -1,14 +1,14 @@
 <template>
   <div class="site-settings-view sticky top-[52px]" data-testid="block-edit-view">
     <header class="flex items-center justify-between px-4 py-5 border-b">
-      <div data-testid="view-title" class="flex items-center text-xl font-bold gap-3">
+      <div data-testid="view-title" class="flex items-center text-xl font-bold gap-3 flex-1 min-w-0">
         <template v-if="customTitle">
-          <button class="rounded-full transition-colors" @click="handleBackClick">
+          <button class="shrink-0 rounded-full transition-colors" @click="handleBackClick">
             <SfIconChevronLeft />
           </button>
-          <span>{{ customTitle }}</span>
+          <span class="block truncate">{{ customTitle }}</span>
         </template>
-        <template v-else> {{ getBlockTypeName(blockType) }}s </template>
+        <template v-else> {{ blockDisplayName }} </template>
       </div>
       <div class="flex items-center space-x-2">
         <div v-if="blockType !== 'Footer'" class="flex items-center space-x-2">
@@ -36,6 +36,14 @@
 
 <script setup lang="ts">
 import { SfIconDelete, SfIconClose, SfIconChevronLeft } from '@storefront-ui/vue';
+
+const { findOrDeleteBlockByUuid } = useBlockManager();
+const route = useRoute();
+const { data } = useBlockTemplates(
+  route?.meta?.identifier as string,
+  route.meta.type as string,
+  useNuxtApp().$i18n.locale.value,
+);
 
 const { drawerOpen, blockType, blockUuid } = useSiteConfiguration();
 const { deleteBlock } = useBlockManager();
@@ -87,10 +95,11 @@ const getComponent = (name: string) => {
 const currentComponent = computed(() => getComponent(blockType.value));
 
 const blockTypeNames: Record<string, string> = {
-  Carousel: 'Image Banner',
+  Carousel: 'Carousel',
   NewsletterSubscribe: 'Newsletter',
   ProductRecommendedProducts: 'Product Gallery',
   TextCard: 'Rich Text',
+  AnnouncementBar: 'Announcement Bar',
   CustomerReview: 'Customer reviews',
   ProductLegalInformation: 'Legal Information',
   MultiGrid: 'Layout',
@@ -99,9 +108,17 @@ const blockTypeNames: Record<string, string> = {
   CategoryData: 'Category Data',
   TechnicalData: 'Technical Data',
   ItemData: 'Item Data',
+  Banner: 'Image Banner',
 };
 
-const getBlockTypeName = (blockType: string) => {
-  return blockTypeNames[blockType] ?? blockType;
-};
+const blockDisplayName = computed(() => {
+  if (blockType.value === 'Carousel') {
+    const block = findOrDeleteBlockByUuid(data.value, blockUuid.value);
+    const firstChild = (block?.content as Array<{ name: string }>)?.[0];
+    if (firstChild?.name) {
+      return blockTypeNames[firstChild.name] ?? firstChild.name;
+    }
+  }
+  return blockTypeNames[blockType.value] ?? blockType.value;
+});
 </script>

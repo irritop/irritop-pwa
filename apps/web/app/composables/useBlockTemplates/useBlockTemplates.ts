@@ -1,19 +1,14 @@
 import type {
   FetchCategoryTemplate,
-  UseCategoryTemplateReturn,
-  UseCategoryTemplateState,
+  UseBlockTemplatesReturn,
+  UseBlockTemplatesState,
   GetBlocks,
   SaveBlocks,
 } from './types';
 import type { ApiError, Block } from '@plentymarkets/shop-api';
 import type { TextCardContent } from '~/components/blocks/TextCard/types';
 import type { ProductRecommendedProductsContent } from '~/components/blocks/ProductRecommendedProducts/types';
-import type {
-  FooterContent,
-  FooterSwitchDefinition,
-  FooterBlock,
-  AddFooterBlock,
-} from '~/components/blocks/Footer/types';
+import type { FooterContent, FooterSwitchDefinition, FooterBlock } from '~/components/blocks/Footer/types';
 import { v4 as uuid } from 'uuid';
 import { callWithNuxt } from '#app';
 
@@ -181,7 +176,7 @@ const mapFooterDataHelper = (data: Block | null): FooterBlock => {
   );
 };
 
-export const useCategoryTemplate: UseCategoryTemplateReturn = (
+export const useBlockTemplates: UseBlockTemplatesReturn = (
   identifier: string = 'unknown',
   type: string = 'unknown',
   locale: string = 'locale',
@@ -189,16 +184,13 @@ export const useCategoryTemplate: UseCategoryTemplateReturn = (
 ) => {
   const nuxtApp = useNuxtApp();
 
-  const state = useState<UseCategoryTemplateState>(
-    `useCategoryTemplate-${identifier}-${type}-${locale}-${blocks}`,
-    () => ({
-      data: [],
-      cleanData: [],
-      categoryTemplateData: null,
-      defaultTemplateData: [],
-      loading: false,
-    }),
-  );
+  const state = useState<UseBlockTemplatesState>(`useBlockTemplates-${identifier}-${type}-${locale}-${blocks}`, () => ({
+    data: [],
+    cleanData: [],
+    categoryTemplateData: null,
+    defaultTemplateData: [],
+    loading: false,
+  }));
 
   const footerCache = useState<FooterBlock | null>(`footer-block-cache-${nuxtApp.$i18n.locale.value}`, () => null);
 
@@ -215,17 +207,6 @@ export const useCategoryTemplate: UseCategoryTemplateReturn = (
   const createDefaultFooterBlock = createDefaultFooterBlockHelper;
   const extractFooterContentFromBlocks = extractFooterContentFromBlocksHelper;
   const mapFooterData = mapFooterDataHelper;
-
-  /** Adds a footer block to the blocks array if one doesn't already exist */
-  const addFooterBlock: AddFooterBlock = ({ data, cachedFooter, cleanData }) => {
-    const footerExists = data.value.some((block) => isFooterBlock(block));
-
-    if (!footerExists) {
-      const footerBlock = cachedFooter.value || createDefaultFooterBlockHelper();
-      data.value.push(footerBlock);
-      if (cleanData) cleanData.value.push(JSON.parse(JSON.stringify(footerBlock)));
-    }
-  };
 
   /** Resets the footer block in data to the saved/cached state, discarding unsaved changes */
   const resetFooterToSaved = async () => {
@@ -267,42 +248,39 @@ export const useCategoryTemplate: UseCategoryTemplateReturn = (
     });
   };
 
-  const ensureFooterBlock = async () => {
-    try {
-      await fetchFooterBlock();
-    } catch (error) {
-      console.warn('Failed to ensure footer block:', error);
-    }
-  };
-  const migrateAllBlocks = (blocks: Block[], isRootLevel = true) => {
+  const migrateAllBlocks = (blocks: Block[]) => {
     const config = useRuntimeConfig().public;
 
-    blocks.forEach((block, index) => {
-      if (block.name === 'Image' && block.content) {
-        block.content = migrateImageContent(block.content);
-      }
+    const migrate = (blocks: Block[], isRootLevel = true) => {
+      blocks.forEach((block, index) => {
+        if (block.name === 'Image' && block.content) {
+          block.content = migrateImageContent(block.content);
+        }
 
-      if (block.name === 'ProductRecommendedProducts' && block.content) {
-        block.content = migrateRecommendedContent(block.content as OldContent | ProductRecommendedProductsContent);
-      }
+        if (block.name === 'ProductRecommendedProducts' && block.content) {
+          block.content = migrateRecommendedContent(block.content as OldContent | ProductRecommendedProductsContent);
+        }
 
-      if (block.name === 'TextCard' && block.content) {
-        const isFirstBlock = isRootLevel && index === 0;
+        if (block.name === 'TextCard' && block.content) {
+          const isFirstBlock = isRootLevel && index === 0;
 
-        block.content = migrateTextCardContent(
-          block.content as Partial<TextCardContent>,
-          config.enableRichTextEditorV2,
-          isFirstBlock,
-        );
-      }
+          block.content = migrateTextCardContent(
+            block.content as Partial<TextCardContent>,
+            config.enableRichTextEditorV2,
+            isFirstBlock,
+          );
+        }
 
-      if (Array.isArray(block.content)) {
-        migrateAllBlocks(block.content, false);
-      }
-    });
+        if (Array.isArray(block.content)) {
+          migrate(block.content, false);
+        }
+      });
+    };
+
+    migrate(blocks);
   };
 
-  /** Fetches blocks from server using useAsyncData and ensures footer block is loaded */
+  /** Fetches blocks from server using useAsyncData with Nuxt caching */
   const getBlocksServer: GetBlocks = async (identifier, type, blocks?) => {
     state.value.loading = true;
 
@@ -321,11 +299,9 @@ export const useCategoryTemplate: UseCategoryTemplateReturn = (
     }
 
     setupBlocks(data?.value?.data ?? []);
-
-    await ensureFooterBlock();
   };
 
-  /** Fetches blocks directly from SDK without caching */
+  /** Fetches blocks directly from SDK without Nuxt caching */
   const getBlocks: GetBlocks = async (identifier, type, blocks?) => {
     state.value.loading = true;
 
@@ -337,26 +313,35 @@ export const useCategoryTemplate: UseCategoryTemplateReturn = (
     setupBlocks(data ?? []);
   };
 
-  /** Sets up blocks in state, applying migrations and falling back to default template if empty */
+  /** Sets up blocks in state, applying migrations and extracting footer from response */
   const setupBlocks = (fetchedBlocks: Block[]) => {
-    const blocks = fetchedBlocks.length ? fetchedBlocks : state.value.defaultTemplateData;
-
-    if (Array.isArray(blocks)) {
-      migrateAllBlocks(blocks);
-
-      const footerBlock = blocks.find((block) => isFooterBlock(block));
-      if (footerBlock) footerCache.value = footerBlock as FooterBlock;
+    if (!Array.isArray(fetchedBlocks)) {
+      console.warn('Invalid blocks data received');
+      return;
     }
 
-    if (!blocks.some((block) => isFooterBlock(block))) {
-      const footerBlock = footerCache.value || createDefaultFooterBlockHelper();
-      blocks.push(footerBlock);
+    migrateAllBlocks(fetchedBlocks);
+
+    const contentBlocks: Block[] = [];
+
+    for (const block of fetchedBlocks) {
+      if (!isFooterBlock(block)) {
+        contentBlocks.push(block);
+      }
     }
 
-    if (JSON.stringify(state.value.data) !== JSON.stringify(blocks)) {
-      state.value.data.splice(0, state.value.data.length, ...blocks);
+    const footerToUse = footerCache.value || createDefaultFooterBlockHelper();
+    const blocksToUse =
+      contentBlocks.length > 0
+        ? contentBlocks
+        : state.value.defaultTemplateData.filter((block) => !isFooterBlock(block));
+
+    const finalBlocks = [...blocksToUse, footerToUse];
+
+    if (JSON.stringify(state.value.data) !== JSON.stringify(finalBlocks)) {
+      state.value.data.splice(0, state.value.data.length, ...finalBlocks);
     }
-    state.value.cleanData = markRaw(JSON.parse(JSON.stringify(blocks)));
+    state.value.cleanData = markRaw(JSON.parse(JSON.stringify(finalBlocks)));
   };
 
   /** Updates the blocks in state with new block data */
@@ -443,7 +428,6 @@ export const useCategoryTemplate: UseCategoryTemplateReturn = (
     clearFooterCache,
     updateFooterCache,
     extractFooterContentFromBlocks,
-    addFooterBlock,
     mapFooterData,
     isFooterBlock,
     FOOTER_BLOCK_NAME,

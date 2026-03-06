@@ -1,5 +1,5 @@
 <template>
-  <div v-if="runtimeConfig.enableEditorCallistoUrlScheme" class="py-2 mb-2">
+  <div v-if="runtimeConfig.enableEditorItemURLScheme" class="py-2 mb-2">
     <div class="flex justify-between mb-2">
       <UiFormLabel>{{ getEditorTranslation('label') }}</UiFormLabel>
 
@@ -96,7 +96,7 @@
 import { SfIconCheck, SfTooltip, SfIconInfo } from '@storefront-ui/vue';
 const runtimeConfig = useRuntimeConfig().public;
 
-const { updateSetting, getSetting } = useSiteSettings('enableCallistoUrlScheme');
+const { updateSetting, getSetting } = useSiteSettings('enableSingleProductUrlScheme');
 
 const urlScheme = computed({
   get: () => {
@@ -112,8 +112,8 @@ const urlScheme = computed({
   "en": {
     "label": "Item URL Scheme",
     "tooltip": "Defines whether item variants get their own URL or share the same URL",
-    "button-modern-label": "Modern",
-    "button-legacy-label": "Legacy",
+    "button-modern-label": "Unique Variant URLs",
+    "button-legacy-label": "Single Product URL",
 
     "description-modern-code": "Example: /item-name_itemID_variantID",
     "description-modern-body-one": "Recommended if you use price comparison platforms like Google Shopping or want variants to be individually discoverable.",
@@ -135,8 +135,8 @@ const urlScheme = computed({
   "de": {
     "label": "Item URL Scheme",
     "tooltip": "Defines whether item variants get their own URL or share the same URL",
-    "button-modern-label": "Modern",
-    "button-legacy-label": "Legacy",
+    "button-modern-label": "Unique Variant URLs",
+    "button-legacy-label": "Single Product URL",
 
     "description-modern-code": "Example: /item-name_itemID_variantID",
     "description-modern-body-one": "Recommended if you use price comparison platforms like Google Shopping or want variants to be individually discoverable.",

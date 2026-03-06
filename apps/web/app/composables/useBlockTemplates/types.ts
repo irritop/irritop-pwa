@@ -1,12 +1,8 @@
+import type { Ref } from 'vue';
 import type { CategoryTemplate, Block } from '@plentymarkets/shop-api';
-import type {
-  FooterBlock,
-  FooterContent,
-  FooterSwitchDefinition,
-  AddFooterBlock,
-} from '~/components/blocks/Footer/types';
+import type { FooterBlock, FooterContent, FooterSwitchDefinition } from '~/components/blocks/Footer/types';
 
-export interface UseCategoryTemplateState {
+export interface UseBlockTemplatesState {
   data: Block[];
   cleanData: Block[];
   categoryTemplateData: CategoryTemplate | null;
@@ -34,10 +30,10 @@ export type ExtractFooterContentFromBlocks = (content: string) => FooterContent 
 export type MapFooterData = (data: Block | null) => FooterBlock;
 export type IsFooterBlock = (block: Block | null | undefined) => block is FooterBlock;
 
-export interface UseCategoryTemplate {
-  data: Readonly<Ref<UseCategoryTemplateState['data']>>;
-  cleanData: Readonly<Ref<UseCategoryTemplateState['cleanData']>>;
-  categoryTemplateData: Readonly<Ref<UseCategoryTemplateState['categoryTemplateData']>>;
+export interface UseBlockTemplates {
+  data: Readonly<Ref<UseBlockTemplatesState['data']>>;
+  cleanData: Readonly<Ref<UseBlockTemplatesState['cleanData']>>;
+  categoryTemplateData: Readonly<Ref<UseBlockTemplatesState['categoryTemplateData']>>;
   loading: Readonly<Ref<boolean>>;
   footerCache: Readonly<Ref<FooterBlock | null>>;
   fetchCategoryTemplate: FetchCategoryTemplate;
@@ -55,16 +51,15 @@ export interface UseCategoryTemplate {
   clearFooterCache: ClearFooterCache;
   updateFooterCache: UpdateFooterCache;
   extractFooterContentFromBlocks: ExtractFooterContentFromBlocks;
-  addFooterBlock: AddFooterBlock;
   mapFooterData: MapFooterData;
   isFooterBlock: IsFooterBlock;
   FOOTER_BLOCK_NAME: 'Footer';
   FOOTER_SWITCH_DEFINITIONS: FooterSwitchDefinition[];
 }
 
-export type UseCategoryTemplateReturn = (
+export type UseBlockTemplatesReturn = (
   identifier?: string,
   type?: string,
   locale?: string,
   blocks?: string,
-) => UseCategoryTemplate;
+) => UseBlockTemplates;
