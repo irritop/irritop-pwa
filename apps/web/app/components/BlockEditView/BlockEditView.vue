@@ -69,8 +69,13 @@ const handleBackClick = () => {
 
 const componentCache = new Map<string, ReturnType<typeof defineAsyncComponent>>();
 
+/** NK
+ * Dynamically imports and returns the form component for the given block type name, utilizing a cache to optimize performance.
+ * @param name The name of the block type
+ */
 const getComponent = (name: string) => {
   if (!name) return null;
+  const formName = name + 'Form';
 
   const formName = name + 'Form';
 

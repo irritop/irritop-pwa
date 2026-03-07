@@ -15,6 +15,8 @@ import type { UseEditorStateReturn } from './types';
 export const useEditorState = (): UseEditorStateReturn => {
   const { $isPreview } = useNuxtApp();
   const { disableActions } = useEditor();
+  // const $isPreview = true;  // NK Show Editor UI
+  // const disableActions = ref(true);  // NK Show Editor UI
 
   /** @description Whether we are in the editor environment (true in both edit and preview modes) */
   const isInEditor = computed(() => !!$isPreview);
