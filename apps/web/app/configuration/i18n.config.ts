@@ -52,7 +52,7 @@ export const nuxtI18nOptions: NuxtI18nOptions = {
   locales: getLocales(),
   defaultLocale: getDefaultLocale(),
   langDir: '../app/lang',
-  strategy: 'prefix_and_default',
+  strategy: 'prefix_except_default',   // NK Adds a prefix for all locales except the default one (e.g., /about for English, /fr/about for French)
   vueI18n: '~/configuration/vueI18n.config.ts',
   detectBrowserLanguage: false,
 };
