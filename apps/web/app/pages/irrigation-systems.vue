@@ -7,9 +7,7 @@
   >
     <SfLoaderCircular v-if="loading" class="fixed top-[50%] right-0 left-0 m-auto z-[99999]" size="2xl" />
     
-    <H1>{{ categoryName }}</H1>
-    <H2>nikolaos</H2>
-    
+    <div> NK TITLE </div>
     <EditableBlocks
       :identifier="identifier"
       :type="'category'"
@@ -39,7 +37,7 @@ const { data: categoryTree } = useCategoryTree();
 const { buildCategoryLanguagePath } = useLocalization();
 
 const identifier = computed(() =>
-  productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 0,
+  productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 369,
 );
 
 definePageMeta({
@@ -47,7 +45,7 @@ definePageMeta({
   middleware: ['category-guard'],
   type: 'category',
   isBlockified: true,
-  identifier: 0,
+  identifier: 369,
 });
 
 const breadcrumbs = computed(() => {
@@ -127,7 +125,7 @@ watch(
 );
 
 watchEffect(() => {
-  route.meta.identifier = productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 0;
+  route.meta.identifier = productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 369;
 });
 
 useHead({
