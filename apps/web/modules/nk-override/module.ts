@@ -80,6 +80,22 @@ export default defineNuxtModule({
       }
     });
 
+    // Add translations globally for the module
+    nuxt.hook("i18n:registerModule", (register) => {
+      register({
+        langDir: resolve("./runtime/lang"),
+        locales: [
+          {
+            code: "en",
+            file: "en.json",
+          },
+          {
+            code: "de",
+            file: "de.json",
+          },
+        ],
+      });
+    });
 
     nuxt.hook('components:extend', (components) => {
       const blocksNewsletterSubscribe = components.find((c) => c.pascalName === 'BlocksNewsletterSubscribe'); 
@@ -99,6 +115,7 @@ export default defineNuxtModule({
     });
 */
 
+
     extendPages((pages: NuxtPage[]) => {
 /*
       const overridePage = pages.find((p) => p.name === "page-to-override");
@@ -109,10 +126,16 @@ export default defineNuxtModule({
 
       // Create a new page
       pages.push({
-        name: "irrigation-systems",
-        file: resolve("./runtime/pages/irrigation-systems.vue"),
-        path: "/irrigation-systems",
-      });
+          name: "irrigation-systems", // Category ID: 369 / en
+          file: resolve("./runtime/pages/irrigation-systems.vue"),
+          path: "/irrigation-systems",
+        },
+        {
+          name: "bewaesserungssysteme", // Category ID: 369 / de
+          file: resolve("./runtime/pages/irrigation-systems.vue"),
+          path: "/bewaesserungssysteme",
+        }
+      );
     });
 
     /**

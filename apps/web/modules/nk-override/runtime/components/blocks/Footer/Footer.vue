@@ -30,17 +30,17 @@
               <NuxtImg class="h-[37px]" src="https://cdn1.irritop.com/frontend/images/logo/Logo22_black.svg" alt="Irritop GmbH" height="37" />
               </SfLink>
 
-              <div class="text-lg font-medium my-2">{{ getEditorTranslation('Join Our Social Network:') }}</div> 
+              <div class="text-lg font-medium my-2">{{ t('Join Our Social Network:') }}</div> 
 
               <div class="text-sm inline-flex gap-2">
                 <Icon name="fa6-brands:square-facebook" size="35px" />
                 <Icon name="fa6-brands:square-x-twitter" size="35px" />
               </div> 
 
-              <div class="text-lg mt-2">{{ getEditorTranslation('Contact Informations') }}</div> 
+              <div class="text-lg mt-2">{{ t('Contact Informations') }}</div> 
               <div class="text-sm mt-1">
                 <p>Irritop GmbH</p>
-                <p>{{ getEditorTranslation('Ohmstraße 7, 10179 Berlin, Germany') }}</p>
+                <p>{{ t('Ohmstraße 7, 10179 Berlin, Germany') }}</p>
                 <p><a href="mailto:info@irritop.com" class="">info@irritop.com</a></p>
               </div>
             </div> 
@@ -48,7 +48,7 @@
               <span>Hotline: &nbsp;</span> <a href="tel:+493030806982" class="">+49 (0) 30 30806982</a>
             </div>
             <div class="text-sm mt-1">
-              <span class="">{{ getEditorTranslation('Montag - Freitag, 09:00 - 15:00') }}</span>
+              <span class="">{{ t('Montag - Freitag, 09:00 - 15:00') }}</span>
             </div>
 
 
@@ -140,7 +140,7 @@
           'md:text-right': resolvedContent.footnoteAlign === 'right',
         }"
         :style="{ color: resolvedContent.colors?.footnoteText || undefined }"
-        v-html="copyrightText + ' | ' + getEditorTranslation('All rights reserved.')"
+        v-html="copyrightText + ' | ' + t('All rights reserved.')"
         />
         <div  
           class="ml-4 text-sm text-center hover:cursor-pointer"
@@ -151,7 +151,7 @@
           }"
           :style="{ color: resolvedContent.colors?.footnoteText || undefined }"
         >
-          {{ getEditorTranslation('footer declaration') }}
+          {{ t('footer declaration') }}
         </div>
       </div>
       
@@ -211,25 +211,3 @@ const getColumnSwitches = (column: FooterColumn) => {
   text-decoration: underline;
 }
 </style>
-
-<i18n lang="json">
-{
-  "en": {
-    "Join Our Social Network:": "Join Our Social Network:",
-    "Contact Informations": "Contact Informations",
-    "Ohmstraße 7, 10179 Berlin, Germany": "Ohmstraße 7, 10179 Berlin, Germany",
-    "Montag - Freitag, 09:00 - 15:00": "Monday - Friday, 09:00 - 15:00",
-    "All rights reserved.": "All rights reserved.",
-    "footer declaration": "** All prices excl. Shipping and incl. VAT / Subject to modifications and errors. Shipping from Bremen (Germany)."
-
-  },
-  "de": {
-    "Join Our Social Network:": "Folgen Sie uns auf:",
-    "Contact Informations": "Kontaktinformationen",
-    "Ohmstraße 7, 10179 Berlin, Germany": "Ohmstraße 7, 10179 Berlin, Deutschland",
-    "Montag - Freitag, 09:00 - 15:00": "Montag - Freitag, 09:00 - 15:00",
-    "All rights reserved.": "Alle Rechte vorbehalten.",
-    "footer declaration": "*Alle Preise zzgl. Versand und inkl. MwSt. / Änderungen und Irrtümer vorbehalten. Versand aus Bremen (Deutschland)."
-  }
-}
-</i18n>
