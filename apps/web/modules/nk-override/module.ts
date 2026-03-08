@@ -1,6 +1,7 @@
-import { useLogger, defineNuxtModule, createResolver, addComponent } from '@nuxt/kit';
+import { useLogger, defineNuxtModule, createResolver, addComponent, extendPages } from '@nuxt/kit';
 import type { TailwindColors } from './types';
 import type { Config as TailwindConfig } from 'tailwindcss/types/config';
+import type { NuxtPage } from "@nuxt/schema";
 
 export default defineNuxtModule({
   meta: {
@@ -97,11 +98,28 @@ export default defineNuxtModule({
             global: true,
     });
 */
+
+    extendPages((pages: NuxtPage[]) => {
+/*
+      const overridePage = pages.find((p) => p.name === "page-to-override");
+        if (overridePage) {
+          overridePage.file = resolve("./runtime/pages/my-page.vue");
+      }
+*/
+
+      // Create a new page
+      pages.push({
+        name: "irrigation-systems",
+        file: resolve("./runtime/pages/irrigation-systems.vue"),
+        path: "/irrigation-systems",
+      });
+    });
+
     /**
      * Ready hook to log a message when the module is ready
      */
     nuxt.hook('ready', () => {
-      logger.info('pwa-module-boilerplate is ready');
+      logger.info('Override module is loaded');
     });
   },
 });

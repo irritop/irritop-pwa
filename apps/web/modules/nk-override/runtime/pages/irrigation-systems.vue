@@ -6,13 +6,11 @@
     :class="{ 'pointer-events-none opacity-50': loading }"
   >
     <SfLoaderCircular v-if="loading" class="fixed top-[50%] right-0 left-0 m-auto z-[99999]" size="2xl" />
-    
-    <div> NK TITLE </div>
+
     <EditableBlocks
       :identifier="identifier"
       :type="'category'"
       data-testid="category-page-content"
-      :prevent-blocks-request="productsCatalog.category?.type === 'item'"
     />
   </NuxtLayout>
 </template>
@@ -26,6 +24,7 @@ defineI18nRoute({
   locales: process.env.LANGUAGELIST?.split(',') as Locale[],
 });
 
+
 const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -36,8 +35,14 @@ const { fetchProducts, data: productsCatalog, loading } = useProducts();
 const { data: categoryTree } = useCategoryTree();
 const { buildCategoryLanguagePath } = useLocalization();
 
+/** NK
+ * identifier gets the ID of the custom category
+ * watchEffect(() gets the ID of the custom category
+ * NK we also remove last line from EditableBlocks in template
+ */
+
 const identifier = computed(() =>
-  productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 369,
+  productsCatalog.value.category?.id,  // NK Enter the ID of the custom Category page
 );
 
 definePageMeta({
@@ -45,7 +50,7 @@ definePageMeta({
   middleware: ['category-guard'],
   type: 'category',
   isBlockified: true,
-  identifier: 369,
+  identifier: 0,   // Fallback ID if the Category ID is not found.
 });
 
 const breadcrumbs = computed(() => {
@@ -125,7 +130,7 @@ watch(
 );
 
 watchEffect(() => {
-  route.meta.identifier = productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 369;
+  route.meta.identifier = productsCatalog.value.category?.id;  // NK Enter the ID of the custom Category page
 });
 
 useHead({
