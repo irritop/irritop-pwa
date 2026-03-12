@@ -38,7 +38,7 @@ const { buildCategoryLanguagePath } = useLocalization();
 /** NK
  * identifier gets the ID of the custom category
  * watchEffect(() gets the ID of the custom category
- * NK we also remove last line from EditableBlocks in template
+ * NK we also removed the last line from EditableBlocks in template
  */
 
 const identifier = computed(() =>

@@ -127,12 +127,12 @@ export default defineNuxtModule({
       // Create a new page
       pages.push({
           name: "irrigation-systems", // Category ID: 369 / en
-          file: resolve("./runtime/pages/irrigation-systems.vue"),
+          file: resolve("./runtime/pages/custom-category.vue"),
           path: "/irrigation-systems",
         },
         {
           name: "bewaesserungssysteme", // Category ID: 369 / de
-          file: resolve("./runtime/pages/irrigation-systems.vue"),
+          file: resolve("./runtime/pages/custom-category.vue"),
           path: "/bewaesserungssysteme",
         }
       );
