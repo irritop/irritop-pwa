@@ -134,7 +134,6 @@
           </template>
         </EditorColorPicker>
       </div>
-
     </UiAccordionItem>
     <UiAccordionItem
       v-model="layoutOpen"
