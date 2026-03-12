@@ -77,8 +77,6 @@ const getComponent = (name: string) => {
   if (!name) return null;
   const formName = name + 'Form';
 
-  const formName = name + 'Form';
-
   if (componentCache.has(formName)) {
     return componentCache.get(formName);
   }
