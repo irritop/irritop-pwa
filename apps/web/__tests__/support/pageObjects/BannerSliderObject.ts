@@ -30,27 +30,23 @@ export class BannerSliderObject extends PageObject {
   }
 
   openSlideActions() {
-    cy.get(`[data-testid="actions-menu-slide-0"]`).click();
+    cy.get(`[data-testid="actions-menu-item-0"]`).click();
   }
 
   openSlideOneSettings() {
-    cy.get('[data-testid="actions-edit-slide-0"]').click();
+    cy.get('[data-testid="actions-edit-item-0"]').click();
   }
 
   openSlideTwoSettings() {
-    cy.get('[data-testid="actions-edit-slide-1"]').click();
+    cy.get('[data-testid="actions-edit-item-1"]').click();
   }
 
   goBackToElementList() {
     cy.get('[data-testid="view-title"] button').first().click();
   }
 
-  addSlide() {
-    cy.get('[data-testid="actions-add-slide-button"]').click();
-  }
-
   deleteSlide() {
-    cy.get('[data-testid="actions-delete-slide-0"]').click();
+    cy.get('[data-testid="actions-delete-item-0"]').click();
   }
 
   checkIfSlideIsDeleted() {
@@ -63,7 +59,7 @@ export class BannerSliderObject extends PageObject {
   }
 
   quickAddSlide() {
-    cy.get('[data-testid="actions-add-slide-button"]').click();
+    cy.get('[data-testid="actions-add-block-button"]').click();
   }
 
   checkSlideSettings(index: number) {
@@ -151,10 +147,10 @@ export class BannerSliderObject extends PageObject {
   }
 
   checkNewTexts() {
-    cy.get('[data-testid^="banner-pretitle-"]').first().should('have.text', 'New Pre-Title');
-    cy.get('[data-testid^="banner-title-"]').first().should('have.text', 'New Title');
-    cy.get('[data-testid^="banner-subtitle-"]').first().should('have.text', 'New Subtitle');
-    cy.get('[data-testid^="banner-description-"]').first().should('have.text', 'New Text Content');
+    cy.get('[data-testid^="text-pretitle"]').first().should('have.text', 'New Pre-Title');
+    cy.get('[data-testid^="text-title"]').first().should('have.text', 'New Title');
+    cy.get('[data-testid^="text-subtitle"]').first().should('have.text', 'New Subtitle');
+    cy.get('[data-testid^="text-html"]').first().should('have.text', 'New Text Content');
   }
 
   scrollFormDown() {
