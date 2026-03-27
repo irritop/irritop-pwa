@@ -12,6 +12,10 @@ export default defineNuxtConfig({
   srcDir: 'app/',
   telemetry: false,
   devtools: { enabled: false },
+  sourcemap: {  // or sourcemap: true
+    server: true,
+    client: true,
+  },
   css: ['~/assets/richtext.css'],
   typescript: {
     typeCheck: true,
@@ -153,6 +157,7 @@ export default defineNuxtConfig({
     'vuetify-nuxt-module',
     'nuxt-color-picker',
     '@nuxt/icon', // NK Add icons module  https://nuxt.com/modules/icon
+    './modules/nk-blocks', // NK-Blocks
   ],
   vuetify: {
     moduleOptions: {

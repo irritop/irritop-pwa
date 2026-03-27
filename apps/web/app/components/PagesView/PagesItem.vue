@@ -26,7 +26,7 @@
       </span>
       <router-link
         v-if="!isTablet && !hasEmptyDetails"
-        :to="pagePath"
+        :to="localePagePath"
         class="flex-1 overflow-hidden whitespace-nowrap overflow-ellipsis"
       >
         <span v-if="props.icon">
@@ -107,6 +107,7 @@ import { gearPath } from '~/assets/icons/paths/gear';
 import disabled from '~/assets/icons/paths/disabled.svg';
 import type { CategoryTreeItem } from '@plentymarkets/shop-api';
 
+
 const { isCategoryDirty, data: collectionData } = useCategorySettingsCollection();
 const { usePaginatedChildren } = useCategoriesSearch();
 const { setSettingsCategory, settingsType } = useSiteConfiguration();
@@ -132,10 +133,17 @@ const pagePath = computed(() => {
   if (item.details[0]?.pageView === 'Homepage') {
     return item.details[0]?.nameUrl || '/';
   }
-
   const firstSlashIndex = item.details[0]?.previewUrl?.indexOf('/', 8) ?? -1;
   return firstSlashIndex !== -1 ? (item.details[0]?.previewUrl?.slice(firstSlashIndex) ?? '/') : '/';
 });
+
+// NK If the default language in Plentymarkets system is “en”, the preview URLs will have the format /[English name of the category] and /de/[German name of the category]
+// If we want the website to use German as the default language, the URLs should have the format /[German name of the category] and /en/[English name of the category].
+// the pagePath returns the wrong URLs based on the previewUrl.    * 
+// The `getCategoryUrlFromPreviewPath` function always generates the correct URL based on the current language setting and the preview URL
+const { getCategoryUrlFromPreviewPath } = useLocalization();
+const localePagePath = getCategoryUrlFromPreviewPath(pagePath.value);
+
 
 const currentGeneralPageId = ref<number | null>(null);
 const open = ref(false);
