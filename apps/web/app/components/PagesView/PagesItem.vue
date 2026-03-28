@@ -169,7 +169,7 @@ const handleSettingsClick = () => {
     id: item.id,
     parentId: props.parentId ?? 0,
     name: itemDisplayName.value,
-    path: item.details[0]?.nameUrl || localePagePath.value,
+    path: item.details[0]?.nameUrl || pagePath.value,
     level: item.level,
     previewUrl: item.details[0]?.previewUrl,
     details: item.details,
