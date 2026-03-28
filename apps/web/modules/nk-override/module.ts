@@ -1,0 +1,159 @@
+import { useLogger, defineNuxtModule, createResolver, addComponent, extendPages } from '@nuxt/kit';
+import type { TailwindColors } from './types';
+import type { Config as TailwindConfig } from 'tailwindcss/types/config';
+import type { NuxtPage } from "@nuxt/schema";
+
+export default defineNuxtModule({
+  meta: {
+    name: 'nk-override',
+    configKey: 'nk-override',
+  },
+  async setup(options, nuxt) {
+    const { resolve } = createResolver(import.meta.url);
+    const logger = useLogger('NK pwa-module-boilerplate');
+
+    /**
+     * Hook to modify the TailwindCSS configuration
+     */
+    nuxt.hook('tailwindcss:config', (config: Partial<TailwindConfig>) => {
+      // Add the runtime components to the TailwindCSS content to enable Tailwind classes in the components
+      if (config.content && Array.isArray(config.content)) {
+        (config.content as string[]).push(resolve('./runtime/**/*.{vue,mjs,ts}'));
+        (config.content as string[]).push(resolve('./runtime/**/*.{mjs,js,ts}'));
+      }
+
+      if (config?.theme?.extend && typeof config.theme.extend.colors === 'object') {
+        const colors = config.theme.extend.colors as TailwindColors;
+        if (!colors.gray) {
+          colors.gray = {};
+        }
+        colors.gray['100'] = '#F7F7F7';
+        colors.gray['200'] = '#dcdcdc';
+        colors.gray['300'] = '#ACACAC';
+        colors.gray['600'] = '#6A6A6A';
+        colors.gray['800'] = '#5A5A5A';
+/*
+        if (!colors.neutral) {colors.neutral = {};}
+        colors.neutral['300'] = '#dc2626';
+
+        if (!colors.secondary) {colors.secondary = {};}
+        colors.secondary['100'] = '#dc2626';
+*/
+
+      }
+
+      // Set custom font sizes
+      if (config?.theme?.extend) {
+        if (!config.theme.extend.fontSize) {
+          config.theme.extend.fontSize = {};
+        }
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['72'] = ['72px', '1.111em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['56'] = ['56px', '1.143em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['48'] = ['48px', '1.167em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['44'] = ['44px', '1.227em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['36'] = ['36px', '1.222em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['34'] = ['34px', '1.294em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['28'] = ['28px', '1.214em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['26'] = ['26px', '1.385em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['24'] = ['24px', '1.5em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['22'] = ['22px', '1.182em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['18'] = ['18px', '1.333em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['16'] = ['16px', '1.5em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['14'] = ['14px', '1.429em'];
+        (config.theme.extend.fontSize as Record<string, [string, string]>)['12'] = ['12px', '1.667em'];
+      }
+
+      // Set custom transition duration to 400ms
+      if (config?.theme?.extend) {
+        if (!config.theme.extend.transitionDuration) {
+          config.theme.extend.transitionDuration = {};
+        }
+        (config.theme.extend.transitionDuration as Record<string, string>)['DEFAULT'] = '400ms';
+      }
+
+      // Set custom width for w-88
+      if (config?.theme?.extend) {
+        if (!config.theme.extend.width) {
+          config.theme.extend.width = {};
+        }
+        (config.theme.extend.width as Record<string, string>)['88'] = '22rem';
+      }
+    });
+
+    // Add translations globally for the module
+    nuxt.hook("i18n:registerModule", (register) => {
+      register({
+        langDir: resolve("./runtime/lang"),
+        locales: [
+          {
+            code: "en",
+            file: "en.json",
+          },
+          {
+            code: "de",
+            file: "de.json",
+          },
+        ],
+      });
+    });
+
+    nuxt.hook('components:extend', (components) => {
+      const blocksNewsletterSubscribe = components.find((c) => c.pascalName === 'BlocksNewsletterSubscribe'); 
+      if (blocksNewsletterSubscribe) { 
+        blocksNewsletterSubscribe.filePath = resolve('./runtime/components/blocks/NewsletterSubscribe/NewsletterSubscribe.vue'); }
+
+      const blocksFooter = components.find((c) => c.pascalName === 'BlocksFooter'); 
+      if (blocksFooter) { 
+        blocksFooter.filePath = resolve('./runtime/components/blocks/Footer/Footer.vue'); }
+
+    });
+/**
+    await addComponent({
+            name: 'Tabs',
+            filePath: resolve('./runtime/components/blocks/Tabs/Tabs.vue'),
+            global: true,
+    });
+*/
+
+
+    extendPages((pages: NuxtPage[]) => {
+/*
+      const overridePage = pages.find((p) => p.name === "page-to-override");
+        if (overridePage) {
+          overridePage.file = resolve("./runtime/pages/my-page.vue");
+      }
+*/
+
+      // Create a new page
+      pages.push({
+          name: "irrigation-systems", // Category ID: 369 / en
+          file: resolve("./runtime/pages/custom-category.vue"),
+          path: "/irrigation-systems",
+        },
+        {
+          name: "bewaesserungssysteme", // Category ID: 369 / de
+          file: resolve("./runtime/pages/custom-category.vue"),
+          path: "/bewaesserungssysteme",
+        }
+      );
+      pages.push({
+          name: "irrigation-sets", // Category ID: 528 / en
+          file: resolve("./runtime/pages/custom-category.vue"),
+          path: "/irrigation-sets",
+        },
+        {
+          name: "bewaesserungssets", // Category ID: 528 / de
+          file: resolve("./runtime/pages/custom-category.vue"),
+          path: "/bewaesserungssets",
+        }
+      );
+    });
+
+    /**
+     * Ready hook to log a message when the module is ready
+     */
+    nuxt.hook('ready', () => {
+      logger.info('Override module is loaded');
+    });
+  },
+});

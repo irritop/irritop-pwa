@@ -11,7 +11,11 @@ import { FailOnLargeChunksPlugin } from './app/configuration/vite.config';
 export default defineNuxtConfig({
   srcDir: 'app/',
   telemetry: false,
-  devtools: { enabled: true },
+  devtools: { enabled: false },
+  sourcemap: {  // or sourcemap: true
+    server: true,
+    client: true,
+  },
   css: ['~/assets/richtext.css'],
   typescript: {
     typeCheck: true,
@@ -22,7 +26,7 @@ export default defineNuxtConfig({
   },
   appConfig: {
     titleSuffix: process.env.NAME || 'PlentyONE Shop',
-    fallbackCurrency: 'GBP',
+    fallbackCurrency: 'EUR',
   },
   imports: {
     dirs: ['~/composables', '~/composables/**', '~/utils/**'],
@@ -79,6 +83,7 @@ export default defineNuxtConfig({
         'vue-tel-input',
         'vuedraggable/src/vuedraggable',
         'yup',
+        '@nuxt/icon', // NK Add icons module
       ],
     },
     build: {
@@ -135,6 +140,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@plentymarkets/shop-core',
+    './modules/nk-override', // NK-Override
     '@plentymarkets/shop-module-mollie',
     '@plentymarkets/shop-module-gtag',
     '@nuxt/eslint',
@@ -150,6 +156,8 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     'vuetify-nuxt-module',
     'nuxt-color-picker',
+    '@nuxt/icon', // NK Add icons module  https://nuxt.com/modules/icon
+    './modules/nk-blocks', // NK-Blocks
   ],
   vuetify: {
     moduleOptions: {
@@ -309,5 +317,15 @@ export default defineNuxtConfig({
       ],
     },
     registerWebManifestInRouteRules: true,
+  },
+  icon: { // NK Add icons custom collection
+    customCollections: [
+      {
+        prefix: 'nk-icon',
+        dir: './app/assets/icons',
+        // if you want to include all the icons in nested directories:
+        // recursive: true,
+      },
+    ],
   },
 });

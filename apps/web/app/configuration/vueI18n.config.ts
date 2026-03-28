@@ -12,7 +12,7 @@ export default {
     en: {
       currency: {
         style: 'currency',
-        currency: 'GBP',
+        currency: 'EUR',  // NK Set to EUR as default currency for English
         currencyDisplay: 'symbol',
       },
     },
