@@ -60,7 +60,6 @@ const { useRuntimeConfig } = vi.hoisted(() => {
     useRuntimeConfig: vi.fn().mockReturnValue({
       public: {
         storename: 'Test Store',
-        enableRichTextEditorV2: false,
       },
     }),
   };
@@ -520,10 +519,6 @@ describe('useBlockTemplates', () => {
     });
 
     it('should set h1 on the first Banner inside a Carousel when Carousel is the first content block', () => {
-      useRuntimeConfig.mockReturnValue({
-        public: { enableRichTextEditorV2: true },
-      });
-
       const firstBanner: Block = {
         name: 'Banner',
         type: 'content',
@@ -561,10 +556,6 @@ describe('useBlockTemplates', () => {
     });
 
     it('should not set h1 on blocks inside the HeaderContainer', () => {
-      useRuntimeConfig.mockReturnValue({
-        public: { enableRichTextEditorV2: true },
-      });
-
       const headerInnerBlock: Block = {
         name: 'TextCard',
         type: 'content',
@@ -591,7 +582,7 @@ describe('useBlockTemplates', () => {
 
       useBlockTemplates().setupBlocks(blocks);
 
-      expect((headerInnerBlock.content as Partial<TextCardContent>)?.text?.htmlDescription).not.toContain('<h1>');
+      expect((headerInnerBlock.content as Partial<TextCardContent>)?.text?.htmlDescription).toContain('<h2>');
       expect((firstContentBlock.content as Partial<TextCardContent>)?.text?.htmlDescription).toContain('<h1>');
     });
   });

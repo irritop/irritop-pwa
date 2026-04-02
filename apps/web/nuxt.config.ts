@@ -87,6 +87,7 @@ export default defineNuxtConfig({
       ],
     },
     build: {
+      modulePreload: { polyfill: false },
       rollupOptions: {
         output: {
           manualChunks: {

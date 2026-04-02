@@ -388,7 +388,6 @@ export const useBlockTemplates: UseBlockTemplatesReturn = (
 
   const migrateAllBlocks = (blocks: Block[]) => {
     const blocksToMigrateTextContent = ['TextCard', 'Banner', 'ProductRecommendedProducts', 'NewsletterSubscribe'];
-    const config = useRuntimeConfig().public;
 
     const firstTextContentBlock = (() => {
       let headerContainerBlock: Block = {} as Block;
@@ -422,14 +421,10 @@ export const useBlockTemplates: UseBlockTemplatesReturn = (
         if (blocksToMigrateTextContent.includes(block.name) && block.content) {
           const isFirstTextContentBlock = block === firstTextContentBlock;
 
-          block.content = migrateTextCardContent(
-            block.content as Partial<TextCardContent>,
-            config.enableRichTextEditorV2,
-            isFirstTextContentBlock,
-          );
+          block.content = migrateTextCardContent(block.content as Partial<TextCardContent>, isFirstTextContentBlock);
         }
 
-        if (block.name === 'Banner' && block.content && config.enableRichTextEditorV2) {
+        if (block.name === 'Banner' && block.content) {
           const content = (block as BannerProps).content;
           const textAlignment = content.text?.textAlignment;
           if (textAlignment && !content?.button?.alignment) {
@@ -487,8 +482,6 @@ export const useBlockTemplates: UseBlockTemplatesReturn = (
       return;
     }
 
-    migrateAllBlocks(fetchedBlocks);
-
     const fetchedHeaderContainer = fetchedBlocks.find((block) => isHeaderContainerBlock(block));
 
     if (fetchedHeaderContainer && Array.isArray(fetchedHeaderContainer.content)) {
@@ -514,6 +507,8 @@ export const useBlockTemplates: UseBlockTemplatesReturn = (
         : state.value.defaultTemplateData.filter((block) => !isFooterBlock(block) && !isHeaderContainerBlock(block));
 
     const finalBlocks = [headerContainerToUse, ...blocksToUse, footerToUse];
+
+    migrateAllBlocks(finalBlocks);
 
     if (JSON.stringify(state.value.data) !== JSON.stringify(finalBlocks)) {
       state.value.data.splice(0, state.value.data.length, ...finalBlocks);
