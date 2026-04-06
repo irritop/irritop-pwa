@@ -44,17 +44,21 @@ const shouldRender = computed(() => props.shouldLoad === undefined || props.shou
 const shouldFetch = computed(() => {
   return isNearViewport.value && shouldRender.value && (isCategory.value || isProduct.value);
 });
-const contentSource = computed(() => ({
-  ...props.content.source,
-  categoryId: props.content.source?.categoryId || (categoryId || firstCategoryId || '').toString(),
-  itemId: itemId.value,
-}));
+const getContentSource = () => {
+  return {
+    ...props.content.source,
+    ...{
+      categoryId: props.content.source?.categoryId || (categoryId || firstCategoryId || '').toString(),
+      itemId: itemId.value,
+    },
+  };
+};
 
 watch(
   shouldFetch,
   (visible) => {
     if (visible) {
-      fetchProductRecommended(contentSource.value);
+      fetchProductRecommended(getContentSource());
       shouldRenderAfterUpdate.value = true;
     }
   },
@@ -75,7 +79,7 @@ watch(
       ((props.content.source?.itemId && props.content.source?.type === 'cross_selling') ||
         (props.content.source?.categoryId && props.content.source?.type === 'category'))
     ) {
-      fetchProductRecommended(contentSource.value);
+      fetchProductRecommended(getContentSource());
     }
     shouldRenderAfterUpdate.value = true;
   },

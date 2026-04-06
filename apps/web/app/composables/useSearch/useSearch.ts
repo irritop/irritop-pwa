@@ -1,7 +1,6 @@
 import type { ApiError, ItemSearchParams, ItemSearchResult } from '@plentymarkets/shop-api';
 import { defaults } from '~/composables';
 import type { UseSearchReturn, UseSearchState, GetSearch } from '~/composables/useSearch/types';
-import { normalizeItemSearchResultProductNames } from '~/utils/product-name-normalizer';
 
 /**
  * @description Composable for managing products search.
@@ -38,7 +37,7 @@ export const useSearch: UseSearchReturn = () => {
       const { data } = await useSdk().plentysystems.getSearch(params);
       state.value.productsPerPage = params.itemsPerPage || defaults.DEFAULT_ITEMS_PER_PAGE;
       if (data) data.pagination.perPageOptions = defaults.PER_PAGE_STEPS;
-      state.value.data = normalizeItemSearchResultProductNames(data);
+      state.value.data = data;
     } catch (error) {
       useHandleError(error as ApiError);
     } finally {

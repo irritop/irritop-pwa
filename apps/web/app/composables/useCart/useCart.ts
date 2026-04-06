@@ -7,7 +7,6 @@ import type {
   Cart,
   PlentyEvents,
 } from '@plentymarkets/shop-api';
-import { normalizeCartProductNames } from '~/utils/product-name-normalizer';
 
 const migrateVariationData = (oldCart: Cart, nextCart: Cart = {} as Cart): Cart => {
   if (!oldCart || !oldCart.items || !nextCart || !nextCart.items) {
@@ -65,7 +64,7 @@ export const useCart = () => {
    */
   const setCart = (data: Cart) => {
     const { setPattern } = usePriceFormatter();
-    state.value.data = normalizeCartProductNames(data);
+    state.value.data = data;
     setPattern(data.currencyPattern);
     useWishlist().setWishlistItemIds(Object.values(data?.itemWishListIds || []));
   };
@@ -120,9 +119,7 @@ export const useCart = () => {
     try {
       const { data } = await useSdk().plentysystems.doAddCartItem(params);
 
-      state.value.data = data
-        ? normalizeCartProductNames(migrateVariationData(state.value.data, data))
-        : state.value.data;
+      state.value.data = data ? migrateVariationData(state.value.data, data) : state.value.data;
 
       const item = state?.value?.data?.items?.find((item) => item.variationId === params.productId);
 
@@ -142,10 +139,10 @@ export const useCart = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorEvents = apiError.events as any;
       if (errorEvents?.AfterBasketChanged?.basket) {
-        state.value.data = normalizeCartProductNames({
+        state.value.data = {
           ...errorEvents.AfterBasketChanged.basket,
           items: errorEvents.AfterBasketChanged.basketItems,
-        });
+        };
       }
       useHandleError(apiError);
     } finally {
@@ -172,7 +169,7 @@ export const useCart = () => {
     try {
       const { data } = await useSdk().plentysystems.doAddCartItems(params);
 
-      state.value.data = normalizeCartProductNames(migrateVariationData(state.value.data, data)) ?? state.value.data;
+      state.value.data = migrateVariationData(state.value.data, data) ?? state.value.data;
 
       params.forEach((param) => {
         const item = state?.value?.data?.items?.find((item) => item.variationId === param.productId);
@@ -193,10 +190,10 @@ export const useCart = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorEvents = apiError.events as any;
       if (errorEvents?.AfterBasketChanged?.basket) {
-        state.value.data = normalizeCartProductNames({
+        state.value.data = {
           ...errorEvents.AfterBasketChanged.basket,
           items: errorEvents.AfterBasketChanged.basketItems,
-        });
+        };
       }
       useHandleError(apiError);
     } finally {

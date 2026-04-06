@@ -4,7 +4,6 @@ import type {
   AddWishlistItemParams,
   DeleteWishlistItemParams,
 } from '@plentymarkets/shop-api';
-import { normalizeWishlistProductNames } from '~/utils/product-name-normalizer';
 import type {
   FetchWishlist,
   UseWishlistReturn,
@@ -47,7 +46,7 @@ export const useWishlist: UseWishlistReturn = () => {
     return await useSdk()
       .plentysystems.getWishlist()
       .then(({ data }) => {
-        state.value.data = normalizeWishlistProductNames(data ?? state.value.data);
+        state.value.data = data ?? state.value.data;
         state.value.loading = false;
         return state.value.data;
       });
