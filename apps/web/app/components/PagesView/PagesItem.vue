@@ -148,6 +148,8 @@ const localePagePath = getCategoryUrlFromPreviewPath(pagePath.value);
 const currentGeneralPageId = ref<number | null>(null);
 const open = ref(false);
 const childrenPagination = usePaginatedChildren(item);
+const { getCorrectPreviewPathWithLocale } = useCategoryIdHelper();
+const localePagePath = getCorrectPreviewPathWithLocale(pagePath.value);
 
 const toggleOpen = async (isTabletCheck = false) => {
   if (item.level === 5) {
