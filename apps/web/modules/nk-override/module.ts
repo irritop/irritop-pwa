@@ -11,6 +11,18 @@ export default defineNuxtModule({
   async setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
     const logger = useLogger('NK pwa-module-boilerplate');
+    const overrideComponentFilePath = (
+      components: Array<{ pascalName?: string; filePath?: string }>,
+      pascalName: string,
+      filePath: string,
+    ) => {
+      const component = components.find((entry) => entry.pascalName === pascalName);
+
+      Object.assign(component ?? {}, {
+        filePath: resolve(filePath),
+      });
+      logger.info(`Component ${pascalName} is overridden with ${filePath}`);
+    };
 
     /**
      * Hook to modify the TailwindCSS configuration
@@ -98,14 +110,14 @@ export default defineNuxtModule({
     });
 
     nuxt.hook('components:extend', (components) => {
-      const blocksNewsletterSubscribe = components.find((c) => c.pascalName === 'BlocksNewsletterSubscribe'); 
-      if (blocksNewsletterSubscribe) { 
-        blocksNewsletterSubscribe.filePath = resolve('./runtime/components/blocks/NewsletterSubscribe/NewsletterSubscribe.vue'); }
-
+    /* We have replace the code below with the function overrideComponentFilePath to avoid code duplication and make it more readable
       const blocksFooter = components.find((c) => c.pascalName === 'BlocksFooter'); 
-      if (blocksFooter) { 
-        blocksFooter.filePath = resolve('./runtime/components/blocks/Footer/Footer.vue'); }
-
+       if (blocksFooter) { 
+      blocksFooter.filePath = resolve('./runtime/components/blocks/Footer/Footer.vue'); }
+    */
+      overrideComponentFilePath(components, 'BlocksNewsletterSubscribe', './runtime/components/blocks/NewsletterSubscribe/NewsletterSubscribe.vue');
+      overrideComponentFilePath(components, 'BlocksFooter', './runtime/components/blocks/Footer/Footer.vue');
+      overrideComponentFilePath(components, 'VariationProperties', './runtime/components/VariationProperties/VariationProperties.vue');
     });
 /**
     await addComponent({
