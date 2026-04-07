@@ -5,7 +5,6 @@ import type { UseProductReturn, UseProductState, FetchProduct } from '~/composab
 
 import { generateBreadcrumbs } from '~/utils/productHelper';
 import { getProductTemplate } from '~/utils/blockTemplates/product';
-import { normalizeProductName } from '~/utils/product-name-normalizer';
 
 const useProductTemplateData = async (locale: string) => await getProductTemplate(locale);
 
@@ -20,6 +19,7 @@ const useProductTemplateData = async (locale: string) => await getProductTemplat
  */
 export const useProduct: UseProductReturn = (slug) => {
   const properties = useProductOrderProperties();
+  const { normalizeProductName } = useProductNameNormalizer();
   const state = useState<UseProductState>(`useProduct-${slug}`, () => ({
     data: {} as Product,
     fakeData: {} as Product,

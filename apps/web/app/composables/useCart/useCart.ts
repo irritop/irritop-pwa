@@ -7,7 +7,6 @@ import type {
   Cart,
   PlentyEvents,
 } from '@plentymarkets/shop-api';
-import { normalizeCartProductNames } from '~/utils/product-name-normalizer';
 
 const migrateVariationData = (oldCart: Cart, nextCart: Cart = {} as Cart): Cart => {
   if (!oldCart || !oldCart.items || !nextCart || !nextCart.items) {
@@ -48,6 +47,7 @@ const isCartItemError = (data: Cart | CartItemError): data is CartItemError => {
  */
 export const useCart = () => {
   const { emit } = usePlentyEvent();
+  const { normalizeCartProductNames } = useProductNameNormalizer();
   const state = useState('useCart', () => ({
     data: {} as Cart,
     useAsShippingAddress: true,
@@ -120,9 +120,7 @@ export const useCart = () => {
     try {
       const { data } = await useSdk().plentysystems.doAddCartItem(params);
 
-      state.value.data = data
-        ? normalizeCartProductNames(migrateVariationData(state.value.data, data))
-        : state.value.data;
+      state.value.data = data ? normalizeCartProductNames(migrateVariationData(state.value.data, data)) : state.value.data;
 
       const item = state?.value?.data?.items?.find((item) => item.variationId === params.productId);
 
@@ -233,7 +231,7 @@ export const useCart = () => {
 
         send({ message: t('storefrontError.cart.reachedMaximumQuantity'), type: 'warning' });
       } else {
-        state.value.data = migrateVariationData(state.value.data, data as Cart) ?? state.value.data;
+        state.value.data = normalizeCartProductNames(migrateVariationData(state.value.data, data as Cart)) ?? state.value.data;
         // @ts-expect-error The type of `state.value.data.apiEvents` is not recognized
         if (state.value.data?.apiEvents) {
           // @ts-expect-error The type of `state.value.data.apiEvents` is not recognized

@@ -1,7 +1,6 @@
 import type { ApiError, ItemSearchParams, ItemSearchResult } from '@plentymarkets/shop-api';
 import { defaults } from '~/composables';
 import type { UseSearchReturn, UseSearchState, GetSearch } from '~/composables/useSearch/types';
-import { normalizeItemSearchResultProductNames } from '~/utils/product-name-normalizer';
 
 /**
  * @description Composable for managing products search.
@@ -12,6 +11,7 @@ import { normalizeItemSearchResultProductNames } from '~/utils/product-name-norm
  * ```
  */
 export const useSearch: UseSearchReturn = () => {
+  const { normalizeItemSearchResultProductNames } = useProductNameNormalizer();
   const state = useState<UseSearchState>('search', () => ({
     data: {} as ItemSearchResult,
     loading: false,

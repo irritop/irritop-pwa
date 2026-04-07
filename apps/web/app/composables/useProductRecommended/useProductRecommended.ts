@@ -4,7 +4,6 @@ import type {
   FetchProductRecommended,
 } from '~/composables/useProductRecommended/types';
 import type { FacetSearchCriteria } from '@plentymarkets/shop-api';
-import { normalizeProductCollection } from '~/utils/product-name-normalizer';
 
 /**
  * Composable for managing recommended products data
@@ -16,6 +15,7 @@ import { normalizeProductCollection } from '~/utils/product-name-normalizer';
  * ```
  */
 export const useProductRecommended: UseProductRecommendedReturn = (categoryId: string) => {
+  const { normalizeProductCollection } = useProductNameNormalizer();
   const state = useState<UseProductRecommendedState>(`useProductRecommended-${categoryId}`, () => ({
     data: [],
     loading: false,

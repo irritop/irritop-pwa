@@ -4,7 +4,6 @@ import type { UseProductsState, FetchProducts, UseProductsReturn } from '~/compo
 import { getCategoryTemplate } from '~/utils/blockTemplates/category';
 import { fakeFacetCallEN } from '~/utils/facets/fakeFacetCallEN';
 import { fakeFacetCallDE } from '~/utils/facets/fakeFacetCallDE';
-import { normalizeFacetProductNames, normalizeProductName } from '~/utils/product-name-normalizer';
 
 const useBlockTemplatesData = async (locale: string) => await getCategoryTemplate(locale);
 
@@ -17,6 +16,7 @@ const useBlockTemplatesData = async (locale: string) => await getCategoryTemplat
  * ```
  */
 export const useProducts: UseProductsReturn = (category = '') => {
+  const { normalizeFacetProductNames, normalizeProductName } = useProductNameNormalizer();
   const state = useState<UseProductsState>(`useProducts${category}`, () => ({
     data: {} as Facet,
     loading: false,

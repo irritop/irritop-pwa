@@ -4,7 +4,6 @@ import type {
   AddWishlistItemParams,
   DeleteWishlistItemParams,
 } from '@plentymarkets/shop-api';
-import { normalizeWishlistProductNames } from '~/utils/product-name-normalizer';
 import type {
   FetchWishlist,
   UseWishlistReturn,
@@ -27,6 +26,7 @@ import type {
  * ```
  */
 export const useWishlist: UseWishlistReturn = () => {
+  const { normalizeWishlistProductNames } = useProductNameNormalizer();
   const state = useState<UseWishlistState>('wishlist', () => ({
     data: [] as WishlistItem[],
     loading: false,
