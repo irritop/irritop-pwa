@@ -107,7 +107,6 @@ import { gearPath } from '~/assets/icons/paths/gear';
 import disabled from '~/assets/icons/paths/disabled.svg';
 import type { CategoryTreeItem } from '@plentymarkets/shop-api';
 
-
 const { isCategoryDirty, data: collectionData } = useCategorySettingsCollection();
 const { usePaginatedChildren } = useCategoriesSearch();
 const { setSettingsCategory, settingsType } = useSiteConfiguration();
@@ -133,19 +132,16 @@ const pagePath = computed(() => {
   if (item.details[0]?.pageView === 'Homepage') {
     return item.details[0]?.nameUrl || '/';
   }
+
   const firstSlashIndex = item.details[0]?.previewUrl?.indexOf('/', 8) ?? -1;
   return firstSlashIndex !== -1 ? (item.details[0]?.previewUrl?.slice(firstSlashIndex) ?? '/') : '/';
 });
 
-// Category Preview Path is based on the default language of Plentymarkets, 
-// and is not correct if the website has a different default Language.
-const { getCorrectPreviewPathWithLocale } = useCategoryIdHelper();
-const localePagePath = getCorrectPreviewPathWithLocale(pagePath.value);
-
-
 const currentGeneralPageId = ref<number | null>(null);
 const open = ref(false);
 const childrenPagination = usePaginatedChildren(item);
+const { getCorrectPreviewPathWithLocale } = useCategoryIdHelper();
+const localePagePath = getCorrectPreviewPathWithLocale(pagePath.value);
 
 const toggleOpen = async (isTabletCheck = false) => {
   if (item.level === 5) {
@@ -167,7 +163,7 @@ const handleSettingsClick = () => {
     id: item.id,
     parentId: props.parentId ?? 0,
     name: itemDisplayName.value,
-    path: item.details[0]?.nameUrl || localePagePath,
+    path: item.details[0]?.nameUrl || pagePath.value,
     level: item.level,
     previewUrl: item.details[0]?.previewUrl,
     details: item.details,
