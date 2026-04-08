@@ -269,7 +269,7 @@ export const useCart = () => {
         cartItemId: cartItem.id,
       });
 
-      state.value.data = migrateVariationData(state.value.data, data) ?? state.value.data;
+      state.value.data = normalizeCartProductNames(migrateVariationData(state.value.data, data)) ?? state.value.data;
       emit('frontend:removeFromCart', {
         deleteItemParams: { cartItemId: cartItem.id },
         cart: state.value.data,

@@ -36,6 +36,17 @@ describe('product name normalizer', () => {
     expect(getNormalizedProductName(createProduct())).toBeNull();
   });
 
+  it.each(['', '   ', '0', '-1', '1.5', '10abc', '1e1'])(
+    'should return null when the configured property id is malformed: %p',
+    (settingValue) => {
+      expect(getNormalizedProductName(createProduct(), settingValue)).toBeNull();
+    },
+  );
+
+  it('should accept a numeric configured property id without throwing', () => {
+    expect(getNormalizedProductName(createProduct(), 10 as never)).toBe('Normalized Name');
+  });
+
   it('should extract a configured variation property as normalized product name', () => {
     const product = {
       texts: {
@@ -102,6 +113,13 @@ describe('product name normalizer', () => {
     expect(normalizeProductName(product).texts?.name1).toBe('Original Name');
     expect(normalizeProductName(createProduct(), '999').texts?.name1).toBe('Original Name');
   });
+
+  it.each(['', '   ', '0', '-1', '1.5', '10abc', '1e1'])(
+    'should keep the original product name when the configured property id is malformed: %p',
+    (settingValue) => {
+      expect(normalizeProductName(createProduct(), settingValue).texts?.name1).toBe('Original Name');
+    },
+  );
 
   it('should overwrite product texts.name1 with the normalized name', () => {
     const product = createProduct();
