@@ -24,10 +24,24 @@ const isProductNameSource = (value: unknown): value is ProductNameSource => {
   return typeof value === 'object' && value !== null;
 };
 
-const getVariationTitleSettingPropertyId = (settingValue = ''): number | null => {
-  const propertyId = Number.parseInt(settingValue, 10);
+const getVariationTitleSettingPropertyId = (settingValue: unknown = ''): number | null => {
+  if (typeof settingValue === 'number') {
+    return Number.isInteger(settingValue) && settingValue > 0 ? settingValue : null;
+  }
 
-  return Number.isNaN(propertyId) ? null : propertyId;
+  if (typeof settingValue !== 'string') {
+    return null;
+  }
+
+  const normalizedSettingValue = settingValue.trim();
+
+  if (!/^\d+$/.test(normalizedSettingValue)) {
+    return null;
+  }
+
+  const propertyId = Number(normalizedSettingValue);
+
+  return propertyId > 0 ? propertyId : null;
 };
 
 /**
