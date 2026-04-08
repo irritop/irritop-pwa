@@ -98,12 +98,12 @@ export const useProduct: UseProductReturn = (slug) => {
     );
     useHandleError(error.value ?? null);
 
-    const fetchedBlocks = data.value?.data.blocks;
+    const fetchedBlocks = data.value?.data?.blocks;
     setupBlocks(
       fetchedBlocks && fetchedBlocks.length > 0 ? fetchedBlocks : await useProductTemplateData($i18n.locale.value),
     );
 
-    properties.setProperties(data.value?.data.properties ?? []);
+    properties.setProperties(data.value?.data?.properties ?? []);
     state.value.data = normalizeProductName(data.value?.data ?? ({} as Product));
     handlePreviewProduct(state, $i18n.locale.value, true);
     state.value.loading = false;

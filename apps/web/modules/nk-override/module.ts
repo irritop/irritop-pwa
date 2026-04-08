@@ -10,7 +10,9 @@ export default defineNuxtModule({
   },
   async setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
-    const logger = useLogger('NK pwa-module-boilerplate');
+    const logger = useLogger('NK Override Module');
+
+    // Override/Extend function to avoid code duplication when overriding components
     const overrideComponentFilePath = (
       components: Array<{ pascalName?: string; filePath?: string }>,
       pascalName: string,
