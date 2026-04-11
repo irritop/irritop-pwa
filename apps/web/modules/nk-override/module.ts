@@ -119,6 +119,7 @@ export default defineNuxtModule({
     */
       overrideComponentFilePath(components, 'BlocksNewsletterSubscribe', './runtime/components/blocks/NewsletterSubscribe/NewsletterSubscribe.vue');
       overrideComponentFilePath(components, 'BlocksFooter', './runtime/components/blocks/Footer/Footer.vue');
+      overrideComponentFilePath(components, 'BlocksBanner', './runtime/components/blocks/Banner/Banner.vue');
       overrideComponentFilePath(components, 'VariationProperties', './runtime/components/VariationProperties/VariationProperties.vue');
     });
 /**
