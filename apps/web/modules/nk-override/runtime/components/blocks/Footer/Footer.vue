@@ -12,31 +12,16 @@
     <div class="px-4 md:px-6 pb-10 max-w-screen-3xl mx-auto">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         <!-- Footer 1rst column -->
-        <div v-if="getColumnSwitches(resolvedContent.column1).length" class="max-w-[280px] break-words">
+        <div v-if="hasColumn1Content" class="max-w-[280px] break-words">
           <div class="ml-4 text-lg font-medium leading-7">
             {{ resolvedContent.column1?.title }}
-
-
-
-
             <div class="">
-              <SfLink
-                :tag="NuxtLink"
-                variant="secondary"
-                class="no-underline text-neutral-900 hover:cursor-pointer hover:underline active:underline"
-                :style="{ color: resolvedContent.colors?.text }"
-                :to="localePath('index')"
-              >
               <NuxtImg class="h-[37px]" src="https://cdn1.irritop.com/frontend/images/logo/Logo22_black.svg" alt="Irritop GmbH" height="37" />
-              </SfLink>
-
               <div class="text-lg font-medium my-2">{{ t('Join Our Social Network:') }}</div> 
-
               <div class="text-sm inline-flex gap-2">
                 <Icon name="fa6-brands:square-facebook" size="35px" />
                 <Icon name="fa6-brands:square-x-twitter" size="35px" />
               </div> 
-
               <div class="text-lg mt-2">{{ t('Contact Informations') }}</div> 
               <div class="text-sm mt-1">
                 <p>Irritop GmbH</p>
@@ -50,9 +35,6 @@
             <div class="text-sm mt-1">
               <span class="">{{ t('Montag - Freitag, 09:00 - 15:00') }}</span>
             </div>
-
-
-
           </div>
         </div>
         <!-- Footer 2nd, 3rd, 4th columns with a loop -->
@@ -84,8 +66,7 @@
             </ul>
             <div
               v-if="column?.description"
-              class="custom-html ml-4 text-sm hover:cursor-pointer"
-              v-html="column.description"
+              v-bind="mapToTextContentProps({ htmlDescription: column.description })"
             />
           </div>
           <!-- Extra code for 4th column -->
@@ -168,12 +149,10 @@ const props = defineProps<FooterProps>();
 const route = useRoute();
 const localePath = useLocalePath();
 const NuxtLink = resolveComponent('NuxtLink');
-const { getFooterBlock, mapFooterData, FOOTER_SWITCH_DEFINITIONS, createFooterBlock } = useBlockTemplates(
-  'index',
-  'immutable',
-  useNuxtApp().$i18n.locale.value,
-);
+const { footer, FOOTER_SWITCH_DEFINITIONS } = useBlocks();
 
+const { t } = useI18n();
+const { enableContractWithdrawalButton } = useRuntimeConfig().public;
 const shouldRender = computed(() => {
   if (route.meta.isBlockified) return !!props.content;
   return true;
@@ -182,9 +161,17 @@ const shouldRender = computed(() => {
 const resolvedContent = computed(() => {
   if (!shouldRender.value) return null;
 
-  const block = props.content ? createFooterBlock(props.content, props.meta) : getFooterBlock();
+  const content = props.content ?? footer.value?.content;
+  return (content ?? null) as NkFooterContent | null;
+});
+const hasColumn1Button = computed(() => {
+  return !!(enableContractWithdrawalButton && resolvedContent.value?.column1?.showCancellationForm);
+});
 
-  return mapFooterData(block).content as NkFooterContent;  // NK cast to our own type with footnote description
+const hasColumn1Content = computed(() => {
+  if (!resolvedContent.value?.column1) return false;
+
+  return getColumnSwitches(resolvedContent.value.column1).length > 0 || hasColumn1Button.value;
 });
 
 // NK const
@@ -192,7 +179,11 @@ const runtimeConfig = useRuntimeConfig();
 const copyrightText = `© ${runtimeConfig.public.storename} ${new Date().getFullYear()}`;
 
 const getColumnSwitches = (column: FooterColumn) => {
-  return FOOTER_SWITCH_DEFINITIONS.filter((switchConfig) => column[switchConfig.key] === true).map((switchConfig) => ({
+  return FOOTER_SWITCH_DEFINITIONS.filter((switchConfig) => {
+    if (column[switchConfig.key] !== true) return false;
+
+    return !(enableContractWithdrawalButton && switchConfig.key === 'showCancellationForm');
+  }).map((switchConfig) => ({
     id: `${switchConfig.key}-switch`,
     translationKey: t(switchConfig.shopTranslationKey),
     link: switchConfig.link,
@@ -200,14 +191,3 @@ const getColumnSwitches = (column: FooterColumn) => {
   }));
 };
 </script>
-
-<style scoped>
-::v-deep(.custom-html li) {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-::v-deep(.custom-html li:hover) {
-  text-decoration: underline;
-}
-</style>
