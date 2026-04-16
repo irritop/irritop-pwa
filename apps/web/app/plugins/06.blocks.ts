@@ -18,6 +18,10 @@ export default defineNuxtPlugin({
 
       const identifier = computed(() => {
         if (type === 'category' && productsCatalog.value) {
+          if (meta.useCategoryIdAsIdentifier === true) {   // NK if useCategoryIdAsIdentifier is true, we use the category ID as identifier for blocks, otherwise we fall back to the default behavior
+            return productsCatalog.value?.category?.id ?? 0;
+          }
+
           return (
             productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 0
           ) as number;
