@@ -144,12 +144,13 @@
 <script setup lang="ts">
 import { SfLink, SfListItem } from '@storefront-ui/vue';
 import type { FooterProps, NkFooterContent, FooterColumn } from './types';  // NK FooterContent not used anyymore.
+import { FOOTER_SWITCH_DEFINITIONS } from './constants';
 
 const props = defineProps<FooterProps>();
 const route = useRoute();
 const localePath = useLocalePath();
 const NuxtLink = resolveComponent('NuxtLink');
-const { footer, FOOTER_SWITCH_DEFINITIONS } = useBlocks();
+const { footer } = useBlocks();
 
 const { t } = useI18n();
 const { enableContractWithdrawalButton } = useRuntimeConfig().public;
