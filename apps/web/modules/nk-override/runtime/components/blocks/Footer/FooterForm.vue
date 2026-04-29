@@ -373,7 +373,7 @@
 </template>
 
 <script setup lang="ts">
-import { SfInput, SfSwitch, SfIconCheck } from '@storefront-ui/vue';
+import { SfInput, SfSwitch } from '@storefront-ui/vue';
 import type { NkFooterContent, FooterBlock } from './types';  // NK
 import { FOOTER_SWITCH_DEFINITIONS } from './constants';
 
@@ -426,6 +426,11 @@ const columnTwoSwitches = FOOTER_SWITCH_DEFINITIONS.filter((config) => config.co
       },
     }),
   }),
+);
+
+const { footnoteAlignModel, footnoteAlignOptions } = useEditorOptionsTabs(
+  () => footerBlock.value,
+  getEditorTranslation,
 );
 </script>
 
