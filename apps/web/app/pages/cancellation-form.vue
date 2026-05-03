@@ -15,6 +15,7 @@ const { setPageMeta } = usePageMeta();
 
 definePageMeta({
   pageType: 'static',
+  sitemap: false,
 });
 
 await getLegalTexts({
