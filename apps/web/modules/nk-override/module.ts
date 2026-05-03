@@ -143,22 +143,26 @@ export default defineNuxtModule({
           name: "irrigation-systems", // Category ID: 369 / en
           file: resolve("./runtime/pages/custom-category.vue"),
           path: "/irrigation-systems",
+          meta: { sitemap: false },
         },
         {
           name: "bewaesserungssysteme", // Category ID: 369 / de
           file: resolve("./runtime/pages/custom-category.vue"),
           path: "/bewaesserungssysteme",
+          meta: { sitemap: false },
         }
       );
       pages.push({
           name: "irrigation-sets", // Category ID: 528 / en
           file: resolve("./runtime/pages/custom-category.vue"),
           path: "/irrigation-sets",
+          meta: { sitemap: false },
         },
         {
           name: "bewaesserungssets", // Category ID: 528 / de
           file: resolve("./runtime/pages/custom-category.vue"),
           path: "/bewaesserungssets",
+          meta: { sitemap: false },
         }
       );
     });

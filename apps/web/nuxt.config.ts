@@ -191,6 +191,15 @@ export default defineNuxtConfig({
       '/register',
       '/reset-password',
       '/favicon.ico',
+      '/terms-and-conditions',
+      '/privacy-policy',
+      '/shipping',
+      '/legal-disclosure',
+      '/declaration-of-accessibility',
+      '/cancellation-rights',
+      '/cancellation-form',
+      '/guest/login',
+
     ],
   },
   shopCore: {

@@ -107,6 +107,7 @@ defineI18nRoute({
 
 definePageMeta({
   pageType: 'static',
+  sitemap: false,
 });
 
 const config = useRuntimeConfig().public;
