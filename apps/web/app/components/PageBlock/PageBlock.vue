@@ -13,14 +13,15 @@
       :class="[
         'relative block-wrapper h-full',
         {
-          'outline outline-4 outline-editor-toc-selected': showOutline && !isDragging,
-        },
-        {
           'hover:outline hover:outline-4 hover:outline-editor-toc-selected':
             clientPreview && enableActions && !isTablet && root && !isDragging,
         },
       ]"
     >
+      <div
+        v-if="showOutline && !isDragging"
+        class="pointer-events-none absolute inset-0 ring-4 ring-inset ring-editor-toc-selected z-[200]"
+      />
       <ClientOnly>
         <button
           v-if="showTopAddBlockButton"
@@ -49,7 +50,7 @@
           ]"
           :index="index"
           :block="block"
-          :actions="getBlockActions(block)"
+          :read-only="readOnly"
           @change-position="changeBlockPosition"
         />
       </ClientOnly>
@@ -107,11 +108,11 @@ import type { Block } from '@plentymarkets/shop-api';
 
 const props = withDefaults(defineProps<PageBlockProps>(), {
   enableActions: false,
+  readOnly: false,
 });
 
-const route = useRoute();
+const viewport = useViewport();
 const { isInEditorClient } = useEditorState();
-const { locale, defaultLocale } = useI18n();
 const { openDrawerWithView } = useSiteConfiguration();
 const attrs = useAttrs();
 const {
@@ -129,6 +130,8 @@ const {
 } = useBlockManager();
 const { shouldShowBlock } = useBlocksVisibility();
 const { blockUuid } = useSiteConfiguration();
+const { hoveredUuid, highlightedUuid, setHoveredBlock, clearHoveredBlock } = useTableOfContents();
+
 const shouldShowBottomAddInGrid = computed(() =>
   showBottomAddInGrid({
     blockMetaUuid: props.block.meta.uuid,
@@ -137,18 +140,12 @@ const shouldShowBottomAddInGrid = computed(() =>
     getBlockDepth,
   }),
 );
-const clientPreview = ref(false);
+const clientPreview = computed(() => isInEditorClient.value && viewport.isGreaterOrEquals('lg'));
 const buttonLabel = 'Insert a new block at this position.';
 
 const getBlockComponent = computed(() => {
   if (!props.block.name) return null;
-
-  const loader = getBlockLoader(props.block.name);
-  if (!loader) return null;
-
-  return defineAsyncComponent({
-    loader,
-  });
+  return getCachedBlockComponent(props.block.name);
 });
 
 const blockIsCurrentlyOpen = computed(() => blockUuid.value === props.block.meta.uuid);
@@ -181,7 +178,7 @@ const observeLazyLoadSection = (blockName: string) => {
   const uniqueKey = getLazyLoadKey(blockName, props.block.meta.uuid);
 
   if (import.meta.client && lazyLoadRefs.value[uniqueKey] && config) {
-    const observer = new window.IntersectionObserver(
+    const observer = new globalThis.IntersectionObserver(
       (entries) => {
         const entry = entries[0];
         if (entry?.isIntersecting) {
@@ -199,17 +196,17 @@ const observeLazyLoadSection = (blockName: string) => {
 };
 
 onNuxtReady(() => {
-  clientPreview.value = isInEditorClient.value;
   if (shouldLazyLoad(props.block.name)) observeLazyLoadSection(props.block.name);
 });
 
 const showOutline = computed(() => {
   return (
-    clientPreview.value &&
-    props.enableActions &&
-    props.isClicked &&
-    props.isTablet &&
-    props.clickedBlockIndex === props.index
+    (clientPreview.value &&
+      props.enableActions &&
+      props.isClicked &&
+      props.isTablet &&
+      props.clickedBlockIndex === props.index) ||
+    highlightedUuid.value === props.block.meta.uuid
   );
 });
 
@@ -217,12 +214,6 @@ const addNewBlock = (block: Block, position: BlockPosition) => {
   togglePlaceholder(block.meta.uuid, position);
   openDrawerWithView('blocksList');
   multigridColumnUuid.value = null;
-};
-
-const getHomePath = (localeCode: string) => (localeCode === defaultLocale ? '/' : `/${localeCode}`);
-
-const isEditDisabled = () => {
-  return route.fullPath !== getHomePath(locale.value);
 };
 
 const showTopAddBlockButton = computed(
@@ -242,22 +233,6 @@ const showBottomAddBlockButton = computed(
     !isFooterBlock(props.block) &&
     (props.root || shouldShowBottomAddInGrid.value),
 );
-
-const getBlockActions = (block: Block) => {
-  if (isGlobalBlock(block)) {
-    return {
-      isEditable: !isEditDisabled(),
-      isMovable: false,
-      isDeletable: false,
-      classes: ['flex', 'items-center', 'right-0', 'top-0', 'border', 'border-[#538AEA]', 'bg-white'],
-      buttonClasses: [],
-      hoverBackground: ['hover:bg-gray-100'],
-    };
-  }
-  return undefined;
-};
-
-const { hoveredUuid, setHoveredBlock, clearHoveredBlock } = useTableOfContents();
 
 const onBlockHover = () => {
   if (props.root) {

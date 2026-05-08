@@ -2,7 +2,8 @@
   <div :style="headerPaletteStyle">
     <header class="relative w-full md:sticky md:shadow-md z-10">
       <div
-        class="flex md:hidden items-center w-full"
+        v-if="viewport.isLessThan('md')"
+        class="flex items-center w-full"
         :style="{ backgroundColor: headerBackgroundColor }"
         data-testid="navbar-top-mobile"
       >
@@ -19,6 +20,7 @@
           </UiButton>
           <NuxtLink
             id="blockified-logo-mobile"
+            data-testid="logo-link"
             :to="localePath(paths.home)"
             :aria-label="t('common.actions.goToHomepage')"
             class="focus-visible:outline focus-visible:outline-offset focus-visible:rounded-sm"
@@ -54,7 +56,8 @@
       </div>
 
       <div
-        class="hidden md:flex items-center flex-nowrap w-full border-0 border-neutral-200"
+        v-else
+        class="flex items-center flex-nowrap w-full border-0 border-neutral-200"
         :style="{ backgroundColor: headerBackgroundColor, ...paddingStyles }"
         data-testid="navbar-top-desktop"
       >
@@ -73,6 +76,7 @@
         <div v-if="isSectionVisible('logo')" class="flex items-center" :style="getSectionColumnStyle('logo')">
           <NuxtLink
             id="blockified-logo"
+            data-testid="logo-link"
             :to="localePath(paths.home)"
             :aria-label="t('common.actions.goToHomepage')"
             class="text-white focus-visible:outline focus-visible:outline-offset focus-visible:rounded-sm"

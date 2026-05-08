@@ -10,7 +10,6 @@
       :identifier="identifier"
       :type="'category'"
       data-testid="category-page-content"
-      
     />
   </NuxtLayout>
 </template>
@@ -41,16 +40,15 @@ const { buildCategoryLanguagePath } = useLocalization();
  * NK we also removed the last line from EditableBlocks in template
  */
 
-const identifier = computed(() =>
-  productsCatalog.value.category?.id,  // NK Enter the ID of the custom Category page
-);
+const identifier = computed(() => productsCatalog.value.category?.id ?? 0);  // NK Enter the ID of the custom Category page
 
 definePageMeta({
   layout: false,
   middleware: ['category-guard'],
   type: 'category',
   isBlockified: true,
-  identifier: 0,   // Fallback ID if the Category ID is not found.
+  useCategoryIdAsIdentifier: true,    // NK Set to true to use the category ID as identifier for blocks
+  identifier: 0,
 });
 
 const breadcrumbs = computed(() => {
@@ -130,7 +128,7 @@ watch(
 );
 
 watchEffect(() => {
-  route.meta.identifier = productsCatalog.value.category?.id;  // NK Enter the ID of the custom Category page
+  route.meta.identifier = productsCatalog.value.category?.id ?? 0;  // NK Enter the ID of the custom Category page
 });
 
 useHead({
