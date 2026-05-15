@@ -23,8 +23,10 @@ export default defineNuxtPlugin({
         }
       }
 
-      const categoryIdentifier =
-        productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 0;
+      /** NK Add line 28 and chnaged 27 and 29, to get the correct category identifier when we override the default behavior in our custom pages */
+      const categoryIdentifier = meta.useCategoryIdAsIdentifier
+        ? (productsCatalog.value.category?.id ?? 0)
+        : (productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 0);
       const staticIdentifier = hasBlockIdentifier ? meta.identifier : 'index';
       const blockIdentifier = type === 'category' ? categoryIdentifier : staticIdentifier;
 
