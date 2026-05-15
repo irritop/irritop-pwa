@@ -1,10 +1,29 @@
 import type { Block } from '@plentymarkets/shop-api';
 
+export interface GridCell {
+  colIndex: number;
+  span: number;
+  hasContent: boolean;
+}
+
+export interface GridRow {
+  cells: GridCell[];
+  free: number;
+}
+
+export interface DragState {
+  colIndex: number;
+  startX: number;
+  startSpan: number;
+  unitW: number;
+}
+
 interface MultiGridLayout {
   marginTop?: number;
   marginBottom?: number;
   backgroundColor?: string;
   gap?: string;
+  fullWidth?: boolean;
 }
 
 export type MultiGridProps = {

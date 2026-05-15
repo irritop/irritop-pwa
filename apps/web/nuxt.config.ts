@@ -54,6 +54,7 @@ export default defineNuxtConfig({
         '@tanstack/vue-virtual',
         '@tiptap/core',
         '@tiptap/extension-color',
+        '@tiptap/extension-emoji',
         '@tiptap/extension-highlight',
         '@tiptap/extension-link',
         '@tiptap/extension-placeholder',
@@ -82,6 +83,7 @@ export default defineNuxtConfig({
         'vue-tel-input',
         'vuedraggable/src/vuedraggable',
         'yup',
+        'validator/es/lib/isURL',
         '@nuxt/icon', // NK Add icons module
       ],
     },
@@ -90,16 +92,20 @@ export default defineNuxtConfig({
       rollupOptions: {
         output: {
           manualChunks: {
-            tiptap: ['@tiptap/core', '@tiptap/starter-kit', '@tiptap/vue-3'],
+            tiptap: [
+              '@tiptap/core',
+              '@tiptap/extension-link',
+              '@tiptap/extension-underline',
+              '@tiptap/starter-kit',
+              '@tiptap/vue-3',
+            ],
             tiptapExtensions: [
               '@tiptap/extension-color',
               '@tiptap/extension-emoji',
               '@tiptap/extension-highlight',
-              '@tiptap/extension-link',
               '@tiptap/extension-placeholder',
               '@tiptap/extension-text-align',
               '@tiptap/extension-text-style',
-              '@tiptap/extension-underline',
             ],
             vuetify: ['vuetify', '@mdi/js'],
           },
