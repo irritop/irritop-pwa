@@ -126,10 +126,13 @@ export const useUrlPageMeta: UseUrlPageMetaReturn = () => {
     const runtimeConfig = useRuntimeConfig();
     const querySuffix = getQuerySuffix(route.fullPath);
 
+    const queryString = new URLSearchParams(route.query as Record<string, string>).toString();
+    const querySuffix = queryString ? `?${queryString}` : '';
+
     const canonicalLink =
       canonicalOverride && canonicalOverride.trim() !== ''
         ? canonicalOverride
-        : `${runtimeConfig.public.domain}${localePath(route.fullPath, $i18n.locale.value)}`;
+        : `${runtimeConfig.public.domain}${localePath(route.path, $i18n.locale.value)}${querySuffix}`;
 
     useHead({
       link: [
