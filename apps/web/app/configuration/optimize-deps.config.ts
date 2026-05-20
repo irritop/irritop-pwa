@@ -43,6 +43,7 @@ export const thirdPartyDeps: string[] = [
   'vuedraggable/src/vuedraggable',
   'yup',
   'validator/es/lib/isURL',
+  '@nuxt/icon', // NK Add icons module
 ];
 
 export const localPackageDeps: string[] = [
