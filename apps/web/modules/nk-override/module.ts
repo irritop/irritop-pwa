@@ -117,7 +117,8 @@ export default defineNuxtModule({
        if (blocksFooter) { 
       blocksFooter.filePath = resolve('./runtime/components/blocks/Footer/Footer.vue'); }
     */
-      overrideComponentFilePath(components, 'BlocksFooter', './runtime/components/blocks/Footer/Footer.vue');
+      // overrideComponentFilePath(components, 'BlocksFooter', './runtime/components/blocks/Footer/Footer.vue');
+      overrideComponentFilePath(components, 'BlocksStructureFooterContainer', './runtime/components/blocks/structure/FooterContainer/FooterContainer.vue');
       overrideComponentFilePath(components, 'BlocksBanner', './runtime/components/blocks/Banner/Banner.vue');
       overrideComponentFilePath(components, 'VariationProperties', './runtime/components/VariationProperties/VariationProperties.vue');
     });

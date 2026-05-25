@@ -15,26 +15,7 @@
         <div v-if="hasColumn1Content" class="max-w-[280px] break-words">
           <div class="ml-4 text-lg font-medium leading-7">
             {{ resolvedContent.column1?.title }}
-            <div class="">
-              <NuxtImg class="h-[37px]" src="https://cdn1.irritop.com/frontend/images/logo/Logo22_black.svg" alt="Irritop GmbH" height="37" />
-              <div class="text-lg font-medium my-2">{{ t('Join Our Social Network:') }}</div> 
-              <div class="text-sm inline-flex gap-2">
-                <Icon name="fa6-brands:square-facebook" size="35px" />
-                <Icon name="fa6-brands:square-x-twitter" size="35px" />
-              </div> 
-              <div class="text-lg mt-2">{{ t('Contact Informations') }}</div> 
-              <div class="text-sm mt-1">
-                <p>Irritop GmbH</p>
-                <p>{{ t('Ohmstraße 7, 10179 Berlin, Germany') }}</p>
-                <p><a href="mailto:info@irritop.com" class="">info@irritop.com</a></p>
-              </div>
-            </div> 
-            <div class="text-lg font-medium mt-3">
-              <span>Hotline: &nbsp;</span> <a href="tel:+493030806982" class="">+49 (0) 30 30806982</a>
-            </div>
-            <div class="text-sm mt-1">
-              <span class="">{{ t('Montag - Freitag, 09:00 - 15:00') }}</span>
-            </div>
+            <FooterCompanyData />
           </div>
         </div>
         <!-- Footer 2nd, 3rd, 4th columns with a loop -->
@@ -70,20 +51,7 @@
             />
           </div>
           <!-- Extra code for 4th column -->
-          <div
-            v-if="i == 2"
-            class="flex flex-col gap-2 mt-3"
-          >
-            <div class="inline-flex gap-2 ustify-center">
-              <Icon name="fa6-brands:cc-paypal" size="35px" />
-              <Icon name="fa6-brands:cc-visa" size="35px" />
-              <Icon name="fa6-brands:cc-mastercard" size="35px" />
-            </div>
-            <div class="inline-flex gap-2 ustify-center">
-              <Icon name="fa6-brands:dhl" size="40px" />
-              <Icon name="fa6-brands:fedex" size="40px" />
-            </div>
-          </div>
+          <FooterPaymentShippingIcons v-if="i == 2" />
         </div>
       </div>
     </div>

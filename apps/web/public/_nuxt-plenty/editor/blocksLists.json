@@ -1348,6 +1348,50 @@
             }
           }
         }
+      },
+      {
+        "title": "Company Data",
+        "image": "https://cdn02.plentymarkets.com/me4mm9ngxuk8/frontend/pwa/images/blocks/company_data.png",
+        "template": {
+          "en": {
+            "name": "FooterCompanyData",
+            "type": "content",
+            "meta": { "uuid": "8b80d357-b8e5-4baa-b6e3-4cbf6fbcefc1" },
+            "content": {
+              "component": "FooterCompanyData"
+            }
+          },
+          "de": {
+            "name": "FooterCompanyData",
+            "type": "content",
+            "meta": { "uuid": "7f2c2f20-5c6f-49e7-9839-c1778e2f2e50" },
+            "content": {
+              "component": "FooterCompanyData"
+            }
+          }
+        }
+      },
+      {
+        "title": "Payment & Shipment Icons",
+        "image": "https://cdn02.plentymarkets.com/me4mm9ngxuk8/frontend/pwa/images/blocks/payment_badges.png",
+        "template": {
+          "en": {
+            "name": "FooterPaymentShippingIcons",
+            "type": "content",
+            "meta": { "uuid": "dc860eef-8978-4282-8624-2f9f4885a59b" },
+            "content": {
+              "component": "FooterPaymentShippingIcons"
+            }
+          },
+          "de": {
+            "name": "FooterPaymentShippingIcons",
+            "type": "content",
+            "meta": { "uuid": "8d6efb0c-bf13-4c33-8e7a-1809a39e97be" },
+            "content": {
+              "component": "FooterPaymentShippingIcons"
+            }
+          }
+        }
       }
     ]
   },
