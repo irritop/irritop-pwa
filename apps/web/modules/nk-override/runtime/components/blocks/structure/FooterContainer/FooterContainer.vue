@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FooterContainerProps } from '~/components/blocks/structure/FooterContainer/types';
+import type { FooterContainerProps } from './types';
 import { FOOTER_SWITCH_DEFINITIONS } from './constants';
 import FooterFootnote from './FooterFootnote.vue';
 

@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { SfLink } from '@storefront-ui/vue';
+import type { ConcreteComponent } from 'vue';
 
 defineProps<{
   showFootnote: boolean;
@@ -47,7 +48,7 @@ defineProps<{
     link: string;
   }>;
   localePath: (path: string) => string;
-  NuxtLink: unknown;
+  NuxtLink: string | ConcreteComponent;
   copyrightText: string;
 }>();
 

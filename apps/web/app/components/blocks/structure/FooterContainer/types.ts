@@ -48,8 +48,6 @@ export interface FooterColumn {
 export interface FooterColors {
   background: string;
   text: string;
-  footnoteBackground: string;
-  footnoteText: string;
 }
 
 export interface FooterContent {
