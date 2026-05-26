@@ -16,8 +16,9 @@ const blockTypeNames: Record<string, string> = {
   UtilityBar: 'Utility Bar',
   HeaderContainer: 'Header Container',
   FooterContainer: 'Footer Container',
-  FooterCompanyData: 'Company Data',
-  FooterPaymentShippingIcons: 'Payment & Shipment Icons',
+  FooterCompanyData: 'Company Data',  // NK added
+  FooterPaymentShippingIcons: 'Payment & Shipment Icons', // NK added
+  FooterFootnote: 'Footer Footnote', // NK added
 };
 
 export const getBlockDisplayName = (blockName: string): string => {

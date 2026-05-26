@@ -101,7 +101,8 @@ export const useBlocksVisibility: UseBlocksVisibilityReturn = () => {
       return true;
     }
 
-    if (!hasStaticContent(block) && !emptyContentAllowedBlocks.has(block.name)) {  // NK (Footer static blocks)added check for blocks that are allowed to be empty but rely on runtime data for visibility
+    // NK If block has empty/static content but should still render in preview, allow it in visibility logic
+    if (!hasStaticContent(block) && !emptyContentAllowedBlocks.has(block.name)) {  
       return false;
     }
 
