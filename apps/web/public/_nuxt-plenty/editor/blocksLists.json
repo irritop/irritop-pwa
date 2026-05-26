@@ -1403,7 +1403,6 @@
             "meta": { "uuid": "9f0a4ad7-9230-4788-b7f9-8620b15e63d7" },
             "content": {
               "component": "FooterFootnote",
-              "showFootnote": true,
               "footnoteBackgroundColor": "",
               "footnoteTextColor": "",
               "showTermsAndConditions": true,
@@ -1419,7 +1418,6 @@
             "meta": { "uuid": "6a9d84ab-f458-4817-ba01-57f9219c4636" },
             "content": {
               "component": "FooterFootnote",
-              "showFootnote": true,
               "footnoteBackgroundColor": "",
               "footnoteTextColor": "",
               "showTermsAndConditions": true,

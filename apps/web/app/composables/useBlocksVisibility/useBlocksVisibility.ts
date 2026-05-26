@@ -23,7 +23,7 @@ import type { BlockVisibilityRegistry, UseBlocksVisibilityReturn } from './types
  */
 export const useBlocksVisibility: UseBlocksVisibilityReturn = () => {
   // NK added to allow certain blocks to be visible even if they have no static content, as their visibility is determined by runtime data (e.g. FooterCompanyData, FooterPaymentShippingIcons)
-  const emptyContentAllowedBlocks = new Set(['FooterCompanyData', 'FooterPaymentShippingIcons']);
+  const emptyContentAllowedBlocks = new Set(['FooterCompanyData', 'FooterPaymentShippingIcons', 'FooterFootnote']);
 
   // Reactive registry where blocks can opt-in to register their runtime visibility state
   const visibilityRegistry = useState<BlockVisibilityRegistry>('block-visibility-registry', () => ({}));

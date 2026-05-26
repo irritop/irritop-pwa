@@ -1,7 +1,6 @@
 <template>
   <div
-    v-if="showFootnoteResolved"
-    class="mb-[62px] md:mb-2 inline-flex w-full flex-auto typography-text-sm flex-wrap md:flex-nowrap"
+    class="mb-[62px] md:mb-0 inline-flex w-full flex-auto typography-text-sm flex-wrap md:flex-nowrap"
     :style="{
       color: footnoteTextColor,
       backgroundColor: footnoteBackgroundColor,
@@ -38,7 +37,6 @@ import type { ConcreteComponent } from 'vue';
 import { FOOTER_SWITCH_DEFINITIONS } from './constants';
 
 interface FooterFootnoteContent {
-  showFootnote?: boolean;
   footnoteBackgroundColor?: string;
   footnoteTextColor?: string;
   [key: string]: string | boolean | undefined;
@@ -52,7 +50,6 @@ interface FooterFootnoteLegalSwitch {
 
 interface FooterFootnotePropsLocal {
   content?: FooterFootnoteContent;
-  showFootnote?: boolean;
   colors?: {
     footnoteBackground?: string;
     footnoteText?: string;
@@ -71,8 +68,6 @@ const runtimeConfig = useRuntimeConfig();
 
 const localePathResolved = computed(() => props.localePath ?? localePath);
 const nuxtLinkResolved = computed(() => props.nuxtLink ?? (resolveComponent('NuxtLink') as string | ConcreteComponent));
-
-const showFootnoteResolved = computed(() => props.showFootnote ?? props.content?.showFootnote ?? true);
 
 const footnoteBackgroundColor = computed(
   () => props.colors?.footnoteBackground ?? props.content?.footnoteBackgroundColor,
