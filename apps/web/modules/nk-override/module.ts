@@ -138,7 +138,7 @@ export default defineNuxtModule({
       }
 */
 
-      // Create a new page
+      // Create a new page  bewaesserungsverteiler
       pages.push({
           name: "irrigation-systems", // Category ID: 369 / en
           file: resolve("./runtime/pages/custom-category.vue"),
@@ -149,6 +149,19 @@ export default defineNuxtModule({
           name: "bewaesserungssysteme", // Category ID: 369 / de
           file: resolve("./runtime/pages/custom-category.vue"),
           path: "/bewaesserungssysteme",
+          meta: { sitemap: false },
+        }
+      );
+      pages.push({
+          name: "irrigation-valveboxes", // Category ID: 528 / en
+          file: resolve("./runtime/pages/custom-category.vue"),
+          path: "/irrigation-valveboxes",
+          meta: { sitemap: false },
+        },
+        {
+          name: "bewaesserungsverteiler", // Category ID: 528 / de
+          file: resolve("./runtime/pages/custom-category.vue"),
+          path: "/bewaesserungsverteiler",
           meta: { sitemap: false },
         }
       );
