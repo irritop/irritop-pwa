@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { SfInput } from '@storefront-ui/vue';
+import { SfInput, SfSwitch } from '@storefront-ui/vue';
 import type { FooterFootnoteBlock, FooterFootnoteFormProps } from './types';
 import { FOOTER_SWITCH_DEFINITIONS } from './constants';
 
@@ -135,6 +135,7 @@ const legalSwitches = FOOTER_SWITCH_DEFINITIONS.filter((config) => config.column
     "legal-options-group-label": "Legal options",
     "column-1-terms-and-conditions-label": "Show Terms and Conditions link",
     "column-1-cancellation-rights-label": "Show Cancellation Rights link",
+    "column-1-cancellation-form-label": "Show Cancellation Form link",
     "column-1-legal-disclosure-label": "Show Legal Disclosure link",
     "column-1-privacy-policy-label": "Show Privacy Policy link",
     "column-1-declaration-of-accessibility-label": "Show Declaration of Accessibility link"
@@ -146,6 +147,7 @@ const legalSwitches = FOOTER_SWITCH_DEFINITIONS.filter((config) => config.column
     "legal-options-group-label": "Rechtliche Optionen",
     "column-1-terms-and-conditions-label": "AGB-Link anzeigen",
     "column-1-cancellation-rights-label": "Widerrufsrecht-Link anzeigen",
+    "column-1-cancellation-form-label": "Widerrufsformular-Link anzeigen",
     "column-1-legal-disclosure-label": "Impressum-Link anzeigen",
     "column-1-privacy-policy-label": "Datenschutz-Link anzeigen",
     "column-1-declaration-of-accessibility-label": "Erklärung zur Barrierefreiheit anzeigen"

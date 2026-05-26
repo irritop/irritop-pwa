@@ -1348,7 +1348,15 @@
             }
           }
         }
-      },
+      }
+    ]
+  },
+  "footer": {
+    "category": "footer",
+    "accessControl": ["content", "productCategory", "product"],
+    "title": "FOOTER",
+    "blockName": "FooterCompanyData",
+    "variations": [
       {
         "title": "Company Data",
         "image": "https://cdn02.plentymarkets.com/me4mm9ngxuk8/frontend/pwa/images/blocks/company_data.png",
