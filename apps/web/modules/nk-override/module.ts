@@ -138,7 +138,7 @@ export default defineNuxtModule({
       }
 */
 
-      // Create a new page  bewaesserungsverteiler
+      // Create a new page 
       pages.push({
           name: "irrigation-systems", // Category ID: 369 / en
           file: resolve("./runtime/pages/custom-category.vue"),

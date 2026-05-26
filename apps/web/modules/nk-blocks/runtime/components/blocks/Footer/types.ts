@@ -40,3 +40,11 @@ export type FooterFootnoteProps = {
 export type FooterFootnoteFormProps = {
   uuid?: string;
 };
+
+export interface FooterSwitchDefinition {
+  columnGroup: 'legal' | 'services';
+  key: string;
+  shopTranslationKey: string;
+  editorTranslationKey: string;
+  link: string;
+}
