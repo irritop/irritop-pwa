@@ -36,6 +36,7 @@ export const useBlockManager = () => {
   const { getBlockTemplateByLanguage } = useBlocksList();
   const { openDrawerWithView, closeBlocksConfigurationDrawer } = useSiteConfiguration();
   const { send } = useNotification();
+  const { setPendingEditChain } = useBlockEditStack();
 
   const currentBlock = ref<Block | null>(null);
   const currentBlockUuid = ref<string | null>(null);
@@ -69,8 +70,18 @@ export const useBlockManager = () => {
   const addBlockToHeader = (newBlock: Block, targetUuid: string, position: BlockPosition) => {
     if (!headerContainer.value || !Array.isArray(headerContainer.value.content)) return;
 
-    const headerCopy = deepClone(headerContainer.value) as Block;
-    const parentInfo = findBlockParent([headerCopy], targetUuid);
+    const headerContent = headerContainer.value.content as Block[];
+
+    if (headerContainer.value.meta?.uuid === targetUuid) {
+      if (Array.isArray(newBlock.content) && newBlock.content.length) {
+        setUuid(newBlock.content as Block[]);
+      }
+
+      position === 'top' ? headerContent.unshift(newBlock) : headerContent.push(newBlock);
+      return;
+    }
+
+    const parentInfo = findBlockParent(headerContent, targetUuid);
     if (!parentInfo) return;
 
     const { parent, index } = parentInfo;
@@ -84,15 +95,13 @@ export const useBlockManager = () => {
     if (Array.isArray(newBlock.content) && newBlock.content.length) {
       setUuid(newBlock.content as Block[]);
     }
-
-    headerContainer.value.content = headerCopy.content;
   };
 
   const addBlockToFooter = (newBlock: Block, targetUuid: string, position: BlockPosition) => {
     if (!footer.value || !Array.isArray(footer.value.content)) return;
 
-    const footerCopy = deepClone(footer.value) as Block;
-    const parentInfo = findBlockParent(footerCopy.content as Block[], targetUuid);
+    const footerContent = footer.value.content as Block[];
+    const parentInfo = findBlockParent(footerContent, targetUuid);
     if (!parentInfo) return;
 
     const { parent, index } = parentInfo;
@@ -106,8 +115,6 @@ export const useBlockManager = () => {
     if (Array.isArray(newBlock.content) && newBlock.content.length) {
       setUuid(newBlock.content as Block[]);
     }
-
-    footer.value.content = footerCopy.content;
   };
 
   const addBlockToPage = (newBlock: Block, targetUuid: string, position: BlockPosition): boolean => {
@@ -118,38 +125,49 @@ export const useBlockManager = () => {
         setUuid(newBlock.content as Block[]);
       }
       updateBlocks([newBlock]);
-      openDrawerWithView('blocksSettings', newBlock);
+      openSettingsForNewBlock([newBlock], newBlock);
       return false;
     }
 
-    const copiedData: Block[] = deepClone(pageBlocks.value);
+    const blocks = pageBlocks.value as Block[];
     const isTargetFooter = footer.value?.meta?.uuid === targetUuid;
 
     if (isTargetFooter) {
-      copiedData.push(newBlock);
-    } else {
-      const parentInfo = findBlockParent(copiedData, targetUuid);
-      const parent = parentInfo?.parent ?? copiedData;
-      const index = parentInfo?.index ?? 0;
-      const targetBlock = parent[index];
-      if (!targetBlock) return false;
-
-      newBlock.parent_slot = targetBlock.parent_slot;
-
-      insertBlock({ targetBlock, newBlock, parent, index, position });
+      if (Array.isArray(newBlock.content) && newBlock.content.length) {
+        setUuid(newBlock.content as Block[]);
+      }
+      blocks.push(newBlock);
+      openSettingsForNewBlock(blocks, newBlock);
+      return true;
     }
+
+    const parentInfo = findBlockParent(blocks, targetUuid);
+    const parent = parentInfo?.parent ?? blocks;
+    const index = parentInfo?.index ?? 0;
+    const targetBlock = parent[index];
+    if (!targetBlock) return false;
+
+    newBlock.parent_slot = targetBlock.parent_slot;
+
+    insertBlock({ targetBlock, newBlock, parent, index, position });
 
     if (Array.isArray(newBlock.content) && newBlock.content.length) {
       setUuid(newBlock.content as Block[]);
     }
 
-    updateBlocks(copiedData);
-
-    if (!isHeaderContainerBlock(getRootParent(copiedData, newBlock.meta.uuid))) {
-      openDrawerWithView('blocksSettings', newBlock);
+    if (!isHeaderContainerBlock(getRootParent(blocks, newBlock.meta.uuid))) {
+      openSettingsForNewBlock(blocks, newBlock);
     }
 
     return true;
+  };
+
+  const openSettingsForNewBlock = (rootBlocks: Block[], newBlock: Block) => {
+    const chain = getAncestorChain(rootBlocks, newBlock.meta.uuid) ?? [newBlock];
+    const rootBlock = chain[0] ?? newBlock;
+
+    setPendingEditChain(chain.slice(1));
+    openDrawerWithView('blocksSettings', rootBlock);
   };
 
   const addNewBlock = async (category: string, variationIndex: number, targetUuid: string, position: BlockPosition) => {
@@ -337,6 +355,21 @@ export const useBlockManager = () => {
     return blocks.find((rootBlock) => blockContainsUuid(rootBlock, targetUuid)) ?? null;
   };
 
+  const getAncestorChain = (blocks: Block[], targetUuid: string): Block[] | null => {
+    for (const block of blocks) {
+      if (block.meta?.uuid === targetUuid) {
+        return [block];
+      }
+      if (Array.isArray(block.content) && block.content.length) {
+        const sub = getAncestorChain(block.content as Block[], targetUuid);
+        if (sub) {
+          return [block, ...sub];
+        }
+      }
+    }
+    return null;
+  };
+
   const setUuid = (blocks: Block[]) => {
     for (const block of blocks) {
       block.meta.uuid = uuid();
@@ -370,9 +403,15 @@ export const useBlockManager = () => {
     if (!isHeaderContainerBlock(headerContainer.value) || !Array.isArray(headerContainer.value.content)) return;
 
     const content = headerContainer.value.content as Block[];
-    if (content.length > 1) {
-      headerContainer.value.content = content.filter((block) => block.meta.uuid !== uuid);
+    const topLevelIdx = content.findIndex((block) => block.meta.uuid === uuid);
+
+    if (topLevelIdx >= 0) {
+      if (content.length <= 1) return;
+      content.splice(topLevelIdx, 1);
+      return;
     }
+
+    findOrDeleteBlockByUuid(content, uuid, true);
   };
 
   const deleteFromFooterContainer = (uuid: string) => {
@@ -430,6 +469,22 @@ export const useBlockManager = () => {
         parent.splice(index, 0, newBlock);
       }
     }
+  };
+
+  const deleteBlockHard = (blockUuid: string) => {
+    if (!pageBlocks.value) return;
+
+    if (getBlockDepth(blockUuid) > 0) {
+      const chain = getAncestorChain(pageBlocks.value, blockUuid);
+      const parentBlock = chain && chain.length >= 2 ? chain[chain.length - 2] : null;
+      if (!parentBlock || !removeBlockFromColumn(parentBlock, blockUuid)) return;
+    } else if (!findOrDeleteBlockByUuid(pageBlocks.value, blockUuid, true)) {
+      deleteFromHeaderContainer(blockUuid);
+      deleteFromFooterContainer(blockUuid);
+    }
+
+    isEditingEnabled.value = !deepEqual(cleanData.value, data.value);
+    closeBlocksConfigurationDrawer();
   };
   const updateBlock = (index: number, updatedBlock: Block) => {
     if (pageBlocks.value && index !== null && index < pageBlocks.value.length) {
@@ -531,6 +586,7 @@ export const useBlockManager = () => {
     handleDragEnd,
     tabletEdit,
     deleteBlock,
+    deleteBlockHard,
     updateBlock,
     changeBlockPosition,
     isLastNonFooterBlock,
