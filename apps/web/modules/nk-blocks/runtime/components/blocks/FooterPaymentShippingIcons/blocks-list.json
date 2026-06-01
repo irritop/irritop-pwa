@@ -1,0 +1,32 @@
+{
+  "footer": {
+    "category": "footer",
+    "accessControl": ["content", "productCategory", "product"],
+    "title": "FOOTER",
+    "blockName": "FooterPaymentShippingIcons",
+    "variations": [
+      {
+        "title": "Payment & Shipment Icons",
+        "image": "https://cdn02.plentymarkets.com/me4mm9ngxuk8/frontend/pwa/images/blocks/payment_badges.png",
+        "template": {
+          "en": {
+            "name": "FooterPaymentShippingIcons",
+            "type": "content",
+            "meta": { "uuid": "dc860eef-8978-4282-8624-2f9f4885a59b" },
+            "content": {
+              "component": "FooterPaymentShippingIcons"
+            }
+          },
+          "de": {
+            "name": "FooterPaymentShippingIcons",
+            "type": "content",
+            "meta": { "uuid": "8d6efb0c-bf13-4c33-8e7a-1809a39e97be" },
+            "content": {
+              "component": "FooterPaymentShippingIcons"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

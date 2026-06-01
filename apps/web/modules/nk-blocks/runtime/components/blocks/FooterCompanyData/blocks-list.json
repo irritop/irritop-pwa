@@ -1,0 +1,32 @@
+{
+  "footer": {
+    "category": "footer",
+    "accessControl": ["content", "productCategory", "product"],
+    "title": "FOOTER",
+    "blockName": "FooterCompanyData",
+    "variations": [
+      {
+        "title": "Company Data",
+        "image": "https://cdn02.plentymarkets.com/me4mm9ngxuk8/frontend/pwa/images/blocks/company_data.png",
+        "template": {
+          "en": {
+            "name": "FooterCompanyData",
+            "type": "content",
+            "meta": { "uuid": "8b80d357-b8e5-4baa-b6e3-4cbf6fbcefc1" },
+            "content": {
+              "component": "FooterCompanyData"
+            }
+          },
+          "de": {
+            "name": "FooterCompanyData",
+            "type": "content",
+            "meta": { "uuid": "7f2c2f20-5c6f-49e7-9839-c1778e2f2e50" },
+            "content": {
+              "component": "FooterCompanyData"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

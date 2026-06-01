@@ -1,7 +1,5 @@
 import type { Block } from '@plentymarkets/shop-api';
 
-
-
 export interface FooterFootnoteContent {
   component?: 'FooterFootnote';
   footnoteBackgroundColor?: string;

@@ -8,8 +8,7 @@ export default defineNuxtModule({
     name: 'nk-blocks',
     configKey: 'nk-blocks',
   },
-  async setup(options, nuxt) {
-    // const { resolve } = createResolver(import.meta.url);
+  async setup(_, nuxt) {
     const logger = useLogger('NK pwa-module-boilerplate');
 
     /**
@@ -18,6 +17,5 @@ export default defineNuxtModule({
     nuxt.hook('ready', () => {
       logger.info('Blocks module is loaded');
     });
-
   },
 });
