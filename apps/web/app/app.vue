@@ -85,6 +85,7 @@ import { categoryGetters } from '@plentymarkets/shop-api';
 
 const bodyClass = ref('');
 const route = useRoute();
+const { locale } = useI18n();
 const { disableActions } = useEditor();
 const { siteConfigurationDrawerOpen, blocksConfigurationDrawerOpen, currentFont } = useSiteConfiguration();
 const { setStaticPageMeta } = useUrlPageMeta();
@@ -204,6 +205,12 @@ useSeoMeta({
   themeColor: () => themeColor.value,
   generator: 'plentymarkets',
 });
+
+useHead(() => ({
+  htmlAttrs: {
+    lang: locale.value,
+  },
+}));
 
 useHead({
   link: () => [

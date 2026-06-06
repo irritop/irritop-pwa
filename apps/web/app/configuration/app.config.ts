@@ -22,9 +22,6 @@ export const favicon = {
 export const appConfiguration = {
   head: {
     viewport: 'minimum-scale=1, initial-scale=1, width=device-width',
-    htmlAttrs: {
-      lang: process.env.DEFAULTLANGUAGE ?? 'en',
-    },
     meta: [
       { property: 'og:type', content: openGraph.type },
       { property: 'og:image', content: openGraph.image },
