@@ -159,22 +159,27 @@ export default defineNuxtModule({
           meta: { sitemap: false },
         },
         {
-          name: "bewaesserungsverteiler", // Category ID: 528 / de
-          file: resolve("./runtime/pages/custom-category.vue"),
-          path: "/bewaesserungsverteiler",
-          meta: { sitemap: false },
-        }
-      );
-      pages.push({
           name: "irrigation-sets", // Category ID: 528 / en
           file: resolve("./runtime/pages/custom-category.vue"),
           path: "/irrigation-sets",
           meta: { sitemap: false },
         },
         {
+          name: "bewaesserungsverteiler", // Category ID: 528 / de
+          file: resolve("./runtime/pages/custom-category.vue"),
+          path: "/bewaesserungsverteiler",
+          meta: { sitemap: false },
+        },
+        {
           name: "bewaesserungssets", // Category ID: 528 / de
           file: resolve("./runtime/pages/custom-category.vue"),
           path: "/bewaesserungssets",
+          meta: { sitemap: false },
+        },
+                {
+          name: "bewaesserungsventilbox", // Category ID: 528 / de
+          file: resolve("./runtime/pages/custom-category.vue"),
+          path: "/bewaesserungsventilbox",
           meta: { sitemap: false },
         }
       );
