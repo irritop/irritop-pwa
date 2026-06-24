@@ -26,7 +26,7 @@ const normalizeIconPath = (path: string): string => {
 
 const blockIcons: Record<string, string> = reactive({});
 
-Object.entries({ ...blockIconLoaders, ...moduleBlockIconLoaders }).forEach(([path, loader]) => {
+Object.entries(blockIconLoaders).forEach(([path, loader]) => {
   const blockName = normalizeIconPath(path);
   if (blockName) {
     loader()

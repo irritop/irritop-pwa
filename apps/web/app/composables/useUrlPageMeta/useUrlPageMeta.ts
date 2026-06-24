@@ -127,6 +127,7 @@ export const useUrlPageMeta: UseUrlPageMetaReturn = () => {
     const route = useRouter().currentRoute.value;
     const localePath = useLocalePath();
     const runtimeConfig = useRuntimeConfig();
+
     const queryString = new URLSearchParams(route.query as Record<string, string>).toString();
     const querySuffix = queryString ? `?${queryString}` : '';
 
