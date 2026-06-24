@@ -1,7 +1,6 @@
-import { useLogger, defineNuxtModule, createResolver, addComponent, extendPages } from '@nuxt/kit';
+import { useLogger, defineNuxtModule, createResolver, addComponent, addPlugin } from '@nuxt/kit';
 import type { TailwindColors } from './types';
 import type { Config as TailwindConfig } from 'tailwindcss/types/config';
-import type { NuxtPage } from "@nuxt/schema";
 
 export default defineNuxtModule({
   meta: {
@@ -130,60 +129,7 @@ export default defineNuxtModule({
 */
 
 
-    extendPages((pages: NuxtPage[]) => {
-/*
-      const overridePage = pages.find((p) => p.name === "page-to-override");
-        if (overridePage) {
-          overridePage.file = resolve("./runtime/pages/my-page.vue");
-      }
-*/
-
-      // Create a new page 
-      pages.push({
-          name: "irrigation-systems", // Category ID: 369 / en
-          file: resolve("./runtime/pages/custom-category.vue"),
-          path: "/irrigation-systems",
-          meta: { sitemap: false },
-        },
-        {
-          name: "bewaesserungssysteme", // Category ID: 369 / de
-          file: resolve("./runtime/pages/custom-category.vue"),
-          path: "/bewaesserungssysteme",
-          meta: { sitemap: false },
-        }
-      );
-      pages.push({
-          name: "irrigation-valveboxes", // Category ID: 528 / en
-          file: resolve("./runtime/pages/custom-category.vue"),
-          path: "/irrigation-valveboxes",
-          meta: { sitemap: false },
-        },
-        {
-          name: "irrigation-sets", // Category ID: 528 / en
-          file: resolve("./runtime/pages/custom-category.vue"),
-          path: "/irrigation-sets",
-          meta: { sitemap: false },
-        },
-        {
-          name: "bewaesserungsverteiler", // Category ID: 528 / de
-          file: resolve("./runtime/pages/custom-category.vue"),
-          path: "/bewaesserungsverteiler",
-          meta: { sitemap: false },
-        },
-        {
-          name: "bewaesserungssets", // Category ID: 528 / de
-          file: resolve("./runtime/pages/custom-category.vue"),
-          path: "/bewaesserungssets",
-          meta: { sitemap: false },
-        },
-                {
-          name: "bewaesserungsventilbox", // Category ID: 528 / de
-          file: resolve("./runtime/pages/custom-category.vue"),
-          path: "/bewaesserungsventilbox",
-          meta: { sitemap: false },
-        }
-      );
-    });
+    addPlugin(resolve('./runtime/plugins/custom-category-routes'));
 
     /**
      * Ready hook to log a message when the module is ready
