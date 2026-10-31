@@ -336,6 +336,13 @@
     },
     "googlePay": {
       "paymentInProgress": "Payment in progress..."
+    },
+    "guaranteeNotice": "Your legal guarantee rights"
+  },
+  "guaranteeLabels": {
+    "area": {
+      "close": "Close guarantee of durability details",
+      "open": "Open guarantee of durability details"
     }
   },
   "customAssets": {
@@ -869,6 +876,13 @@
     "confirmation": {
       "newsletterOptInMessage": "Your email address has been confirmed.",
       "newsletterOptInMessageError": "An error occurred while confirming your email."
+    },
+    "unsubscribe": {
+      "label": "Newsletter Unsubscribe",
+      "heading": "Unsubscribe from Newsletter",
+      "info": "Enter your email address below to unsubscribe from our newsletter.",
+      "submit": "Unsubscribe",
+      "success": "You have been successfully unsubscribed from our newsletter."
     }
   },
   "offers": {
@@ -890,7 +904,8 @@
     "successHeader": "Thank you for your order!",
     "successImageAlt": "order successful image",
     "successMessage": "Your order was completed successfully.",
-    "successReturnHeader": "Thank you for your return!"
+    "successReturnHeader": "Thank you for your return!",
+    "rebate": "Rebate"
   },
   "orderConfirmation": {
     "confirmationSendTo": "A confirmation with all details has been sent to {email}",
