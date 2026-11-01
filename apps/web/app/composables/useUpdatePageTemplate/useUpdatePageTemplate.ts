@@ -20,9 +20,8 @@ export const useUpdatePageTemplate = () => {
       let identifier: string | number = route.meta.identifier as string | number;
 
       // NK If the useCategoryIdAsIdentifier is true, we use the category ID as identifier for blocks.
-      // if ((route.meta.useCategoryIdAsIdentifier === true || dataProducts.value?.category?.type === 'content') && dataProducts.value?.category?.id) {
-
       if (
+        route.meta.useCategoryIdAsIdentifier === true ||
         route.meta.type === 'category' &&
         dataProducts.value?.category?.type === 'content' &&
         dataProducts.value.category.id
