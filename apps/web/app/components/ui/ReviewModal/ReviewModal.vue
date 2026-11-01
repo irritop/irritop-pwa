@@ -14,7 +14,7 @@
         square
         variant="tertiary"
         class="absolute right-2 top-2"
-        @click="isReviewModalOpen = false"
+        @click="closeReviewModal"
       >
         <SfIconClose />
       </UiButton>
@@ -41,7 +41,7 @@ const { currentProduct } = useProducts();
 const productId = Number(productGetters.getItemId(currentProduct.value));
 
 const { isAuthorized } = useCustomer();
-const { isReviewModalOpen, review, modalType } = useProductReviews(productId);
+const { isReviewModalOpen, review, modalType, closeReviewModal } = useProductReviews(productId);
 
 const isDeleteModal = computed(() =>
   [defaults.DEFAULT_REVIEW_MODAL_TYPES.deleteReview, defaults.DEFAULT_REVIEW_MODAL_TYPES.deleteReply].includes(

@@ -47,10 +47,6 @@
         role="tabpanel"
       >
         <slot name="content" :content-block="activeTab" :index="activeTabIndex" />
-
-        <UiBlockPlaceholder
-          v-if="shouldDisplayPlaceholder(activeTab.meta.uuid, 'bottom', drawerOpen, drawerView)"
-        />
       </div>
     </div>
   </div>
@@ -83,11 +79,6 @@ type TabsStructureProps = {
 
 const props = defineProps<TabsStructureProps>();
 
-const { shouldDisplayPlaceholder } = useBlockManager();
-const { siteConfigurationDrawerOpen, siteConfigurationDrawerView } = useSiteConfiguration();
-
-const drawerOpen = computed(() => siteConfigurationDrawerOpen.value);
-const drawerView = computed(() => siteConfigurationDrawerView.value);
 const { isFullWidth } = useFullWidthToggleForConfig(computed(() => props.configuration ?? {}));
 
 const showBorderUnderTabs = computed(() => props.configuration?.layout?.showBorderUnderTabs !== false);

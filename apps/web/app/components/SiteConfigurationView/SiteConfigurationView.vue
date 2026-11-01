@@ -30,7 +30,7 @@
           type="button"
           class="w-full flex items-center gap-1.5 px-3.5 py-2 bg-editor-surface border-b border-editor-border hover:bg-editor-toc-hover transition-colors cursor-pointer text-left select-none"
           :data-testid="`site-settings-category-${subCategory}`"
-          @click="activeSubCategory = subCategory"
+          @click="setActiveSubCategory(subCategory)"
         >
           <span class="flex-1 text-2xs font-bold text-editor-text-subtle tracking-wider uppercase break-words">
             {{ getEditorUITranslation(subCategory) }}
@@ -43,7 +43,7 @@
       <header class="border-b flex-shrink-0">
         <div class="flex items-center justify-between px-4 py-4">
           <div class="flex items-start flex-col">
-            <div class="flex items-center text-sm cursor-pointer" @click="activeSubCategory = ''">
+            <div class="flex items-center text-sm cursor-pointer" @click="setActiveSubCategory('')">
               <slot name="setting-breadcrumbs">
                 {{ getEditorUITranslation(activeSetting) }}
               </slot>
@@ -60,7 +60,7 @@
           >
             <SfIconClose />
           </button>
-          <button v-else data-testid="view-back" class="!p-0" @click="activeSubCategory = ''">
+          <button v-else data-testid="view-back" class="!p-0" @click="setActiveSubCategory('')">
             <SfIconChevronLeft />
           </button>
         </div>

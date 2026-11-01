@@ -113,7 +113,7 @@
           class="w-full text-center"
           location="quickCheckout"
           type="CartPreview"
-          @on-approved="isOpen = false"
+          @on-approved="closeQuickCheckout"
         />
         <PayPalPayLaterBanner placement="payment" location="quickCheckout" :amount="totals.total" />
 
