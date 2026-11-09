@@ -5,7 +5,6 @@ import type {
   CartItemError,
   ApiError,
   Cart,
-  PlentyEvents,
 } from '@plentymarkets/shop-api';
 
 const migrateVariationData = (oldCart: Cart, nextCart: Cart = {} as Cart): Cart => {
